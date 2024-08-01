@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 
+global_path = 'E:/Projects/Flutter Projects/travel_recommender/lib/python_backend/recommender/'
 
 class PopularityRecommender():
-    def __init__(self, dataset='world-popularity.csv', alpha=0.5, beta=0.5):
+    def __init__(self, dataset=global_path+'world-popularity.csv', alpha=0.5, beta=0.5):
         self.dataset = pd.read_csv(dataset)
         self.alpha = alpha
         self.beta = beta

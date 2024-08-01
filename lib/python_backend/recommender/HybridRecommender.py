@@ -1,6 +1,6 @@
-from PopularityRecommender import PopularityRecommender
-from CollaborativeRecommender import CollaborativeRecommender
-from ContentRecommender import ContentBaseRecommender
+from recommender.PopularityRecommender import PopularityRecommender
+from recommender.CollaborativeRecommender import CollaborativeRecommender
+from recommender.ContentRecommender import ContentBaseRecommender
 import pandas as pd
 
 class HybridRecommender:

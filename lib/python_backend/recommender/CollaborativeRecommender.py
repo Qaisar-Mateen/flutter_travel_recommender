@@ -6,6 +6,8 @@ import torch
 import torch.nn as nn
 import pickle
 
+global_path = 'E:/Projects/Flutter Projects/travel_recommender/lib/python_backend/recommender/'
+
 class RecommenderModel(tez.Model):
     def __init__(self, num_users, num_country, lr=1e-3):
         super().__init__()
@@ -101,11 +103,11 @@ def train_NN(dataset_name, model_name, epochs=20):
 
     input('press any key to save the model')
 
-    model.save('Models/' + model_name)
+    model.save(global_path+'model' + model_name)
 
-    with open('user_encoder.pkl', 'wb') as f:
+    with open(global_path+'user_encoder.pkl', 'wb') as f:
         pickle.dump(lbl_user, f)
-    with open('country_encoder.pkl', 'wb') as f:
+    with open(global_path+'country_encoder.pkl', 'wb') as f:
         pickle.dump(lbl_country, f)
 
 
@@ -118,14 +120,14 @@ class CollaborativeRecommender:
         df = pd.read_csv(dataset_name)
     
         # loading encoders used during training
-        with open('user_encoder.pkl', 'rb') as f:
+        with open(global_path+'user_encoder.pkl', 'rb') as f:
             lbl_user = pickle.load(f)
-        with open('country_encoder.pkl', 'rb') as f:
+        with open(global_path+'country_encoder.pkl', 'rb') as f:
             lbl_country = pickle.load(f)
 
         # loading pre_trained model
         model = RecommenderModel(num_users=len(lbl_user.classes_), num_country=len(lbl_country.classes_))
-        model.load('Models/' + self.model_name, device='cpu')
+        model.load(global_path+ 'model/' + self.model_name, device='cpu')
 
         train_df, test_df = model_selection.train_test_split(df, test_size=0.2, random_state=42, stratify=df.rating.values)
 
@@ -139,24 +141,24 @@ class CollaborativeRecommender:
 
         input('press any key to save the model')
 
-        model.save('model/' + self.model_name)
+        model.save(global_path+'model/' + self.model_name)
 
-        with open('user_encoder.pkl', 'wb') as f:
+        with open(global_path+'user_encoder.pkl', 'wb') as f:
             pickle.dump(lbl_user, f)
-        with open('country_encoder.pkl', 'wb') as f:
+        with open(global_path+'country_encoder.pkl', 'wb') as f:
             pickle.dump(lbl_country, f)
 
     def recommend(self, test=False,  top_n: int=222):
 
         # loading encoders used during training
-        with open('user_encoder.pkl', 'rb') as f:
+        with open(global_path+'user_encoder.pkl', 'rb') as f:
             lbl_user = pickle.load(f)
-        with open('country_encoder.pkl', 'rb') as f:
+        with open(global_path+'country_encoder.pkl', 'rb') as f:
             lbl_country = pickle.load(f)
 
         # loading pre_trained model
         pre_trained_model = RecommenderModel(num_users=len(lbl_user.classes_), num_country=len(lbl_country.classes_))
-        pre_trained_model.load('model/' + self.model_name, device='cpu')
+        pre_trained_model.load(global_path+'model/' + self.model_name, device='cpu')
 
         user_id = lbl_user.transform([self.user])[0]
 
@@ -171,7 +173,7 @@ class CollaborativeRecommender:
 
         recommendation = pd.DataFrame({'ID': country_ids.numpy(), 'Rating': predictions.numpy()})
 
-        df = pd.read_csv('world-countries.csv')
+        df = pd.read_csv(global_path+'world-countries.csv')
 
         recommendation = pd.merge(recommendation, df, how='left', left_on='ID', right_on='ID')
         
@@ -192,14 +194,14 @@ def Recommender(user, model_name, top_n=10, train=False, dataset_name=None):
             train_NN(dataset_name, model_name)
 
     # loading encoders used during training
-    with open('user_encoder.pkl', 'rb') as f:
+    with open(global_path+'user_encoder.pkl', 'rb') as f:
         lbl_user = pickle.load(f)
-    with open('country_encoder.pkl', 'rb') as f:
+    with open(global_path+'country_encoder.pkl', 'rb') as f:
         lbl_country = pickle.load(f)
 
     # loading pre_trained model
     pre_trained_model = RecommenderModel(num_users=len(lbl_user.classes_), num_country=len(lbl_country.classes_))
-    pre_trained_model.load('model/' + model_name, device='cpu')
+    pre_trained_model.load(global_path+'model/' + model_name, device='cpu')
 
     user_id = lbl_user.transform([user])[0]
 
@@ -222,4 +224,4 @@ if __name__ == "__main__":
     model = CollaborativeRecommender(user=0, model_name='CF_Neural_Model3.7.bin')
     print(model.recommend(test=True, top_n=16))
 
-    model.updateModel(dataset_name='ratings.csv', epochs=1)
+    model.updateModel(dataset_name=global_path+'ratings.csv', epochs=1)

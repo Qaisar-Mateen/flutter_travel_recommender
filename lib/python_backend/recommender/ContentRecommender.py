@@ -7,9 +7,11 @@ import warnings
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+global_path = 'E:/Projects/Flutter Projects/travel_recommender/lib/python_backend/recommender/'
+
 class ContentBaseRecommender:
 
-    def __init__(self, data_file='world-countries.csv', wait_time=0.1):
+    def __init__(self, data_file= global_path+'world-countries.csv', wait_time=0.1):
         self.data = pd.read_csv(data_file)
         self.wait = wait_time
 
@@ -138,6 +140,6 @@ class ContentBaseRecommender:
 
 
 if __name__ == '__main__':
-    recommender = ContentBaseRecommender('world-countries.csv', .5)
+    recommender = ContentBaseRecommender(global_path+'world-countries.csv', .5)
 
     print(recommender.recommend(['Pakistan', 'India', 'Japan'], count_vectorizer=False))
