@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
+// ignore: must_be_immutable
 class Settings extends StatelessWidget {
 
-  TextEditingController ipAddress = TextEditingController();
-  TextEditingController port = TextEditingController();
+  TextEditingController ipAddress = TextEditingController(text: "127.0.0.1");
+  TextEditingController port = TextEditingController(text: "5000");
 
   Settings({super.key});
 
@@ -33,25 +33,34 @@ class Settings extends StatelessWidget {
           ),
 
           Card(
+            elevation: 0,
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Padding(
               padding: const EdgeInsets.only(top:12, left: 20, right: 20, bottom: 15),
-              child: Column( crossAxisAlignment: CrossAxisAlignment.center,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center, 
                 children: [
                   const Text("Server Settings", style: TextStyle(fontWeight: FontWeight.bold),),
-                  TextField(
-                    controller: ipAddress,
-                    decoration: const InputDecoration(
-                      labelText: "IP Address",
+                  Padding(
+                    padding: const EdgeInsets.only(top:30, bottom: 10),
+                    child: TextField(
+                      controller: ipAddress,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "IP Address",
+                      ),
                     ),
                   ),
-                  TextField(
-                    controller: port,
-                    decoration: const InputDecoration(
-                      labelText: "Port",
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: TextField(
+                      controller: port,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Port",
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
                   ),
                 ],
               ),
