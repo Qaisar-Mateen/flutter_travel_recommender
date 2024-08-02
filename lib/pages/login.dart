@@ -12,7 +12,7 @@ class Login extends StatelessWidget {
         actions: [IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const Settings()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
           },
         ),]
       ),
