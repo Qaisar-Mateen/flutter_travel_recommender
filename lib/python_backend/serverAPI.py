@@ -12,14 +12,14 @@ app = flask.Flask(__name__)
 def login():
     userId = request.args.get("userId")
     if userId is None:
-        return {'valid', False}, 400
-    
+        return {'valid': False}, 400
+    userId = int(userId)
     ids = pd.read_csv('recommender/ratings.csv')
     ids = ids['user'].unique()
 
     if userId in ids:
-        return {"valid", True}
-    return {"valid", False}, 400
+        return {"valid": True}
+    return {"valid": False}, 400
 
 
 @app.route("/recommend", methods=["GET"])

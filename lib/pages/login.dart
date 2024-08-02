@@ -8,7 +8,7 @@ class Login extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final TextEditingController idController = TextEditingController();
+    TextEditingController idController = TextEditingController();
     return  Scaffold(
       appBar: AppBar(
         actions: [IconButton(
@@ -50,11 +50,11 @@ class Login extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       final String id = idController.text;
-                      final response = await http.get(Uri.parse(
-                        'http://192.168.1.9:5000/login?userId=$id'
-                      ));
                       if (id.isNotEmpty) {
-                        print(response);
+                        final response = await http.get(Uri.parse(
+                        'http://192.168.1.9:5000/login?userId=$id'
+                        ));
+                        print(response.body);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
