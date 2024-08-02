@@ -4,7 +4,7 @@ import pandas as pd
 from flask import jsonify, request
 import recommender.HybridRecommender as recommender
 
-warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
 app = flask.Flask(__name__)
 
