@@ -11,6 +11,9 @@ app = flask.Flask(__name__)
 @app.route("/login", methods=["GET"])
 def login():
     userId = request.args.get("userId")
+    if userId is None:
+        return "No userId provided", 400
+    
     ids = pd.read_csv('recommender/ratings.csv')
     ids = ids['user'].unique()
 
