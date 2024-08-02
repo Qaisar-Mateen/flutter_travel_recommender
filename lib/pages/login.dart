@@ -54,11 +54,10 @@ class Login extends StatelessWidget {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Please enter your ID"),
+                            content: Text("Please enter your ID", textAlign: TextAlign.center,),
                             backgroundColor: Colors.red,
                             behavior: SnackBarBehavior.floating,
-                            //margin: EdgeInsets.symmetric(horizontal: 5),
-                            
+                            elevation: 2,
                             shape: StadiumBorder()
                           ),
                         );
