@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:travel_recommender/pages/settings.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatelessWidget {
   
@@ -47,10 +48,13 @@ class Login extends StatelessWidget {
 
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       final String id = idController.text;
+                      final response = await http.get(Uri.parse(
+                        'http://192.168.1.9:5000/login?userId=$id'
+                      ));
                       if (id.isNotEmpty) {
-                        
+                        print(response);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
