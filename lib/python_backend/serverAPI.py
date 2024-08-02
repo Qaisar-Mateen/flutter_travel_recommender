@@ -1,7 +1,7 @@
 import flask
 import warnings
 import pandas as pd
-from flask import jsonify, request
+from flask import request
 import recommender.HybridRecommender as recommender
 
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
@@ -19,7 +19,7 @@ def login():
 
     if userId in ids:
         return True
-    return False
+    return False, 400
 
 
 @app.route("/recommend", methods=["GET"])
