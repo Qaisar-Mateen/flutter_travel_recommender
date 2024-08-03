@@ -58,14 +58,13 @@ class LoginState extends State<Login> {
                     ),
                     keyboardType: TextInputType.number,
                   ),
+
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: isFetching? null : () async {
                             final String id = idController.text;
                             if (id.isNotEmpty) {
-                              setState(() {
-                                isFetching = true;
-                              });
+                              setState(() {isFetching = true;});
                               try {
                                 final response = await http
                                     .get(Uri.parse(
@@ -129,7 +128,7 @@ class LoginState extends State<Login> {
                             }
                           },
                     child: isFetching
-                        ? const CircularProgressIndicator()
+                        ? const Text("Verifying...")
                         : const Text("Login"),
                   ),
                 ],

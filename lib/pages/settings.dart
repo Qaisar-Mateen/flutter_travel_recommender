@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_recommender/settings_cubit.dart';
 
 // ignore: must_be_immutable
 class Settings extends StatelessWidget {
@@ -22,11 +24,17 @@ class Settings extends StatelessWidget {
               child: Column(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Theme Settings", style: TextStyle(fontWeight: FontWeight.bold),),
-                  SwitchListTile(
-                    title: const Text("Dark Theme"),
-                    value: false,
-                    onChanged: (bool value) {}
-                  )
+                  BlocBuilder<ThemeCubit, ThemeData>(
+                    builder: (context, toggleTheme) {
+                      return SwitchListTile(
+                        title: const Text("Dark Theme"),
+                        value: context.read<ThemeCubit>().isDark(),
+                        onChanged: (bool value) {
+                          context.read<ThemeCubit>().toggleTheme();
+                        }
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
