@@ -22,22 +22,18 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: context.watch<ThemeCubit>().state.colorScheme.surface,
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
-            },
-          ),
-        ],
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: IconButton(
+        icon: const Icon(Icons.settings),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+        },
       ),
+
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Card(
-            //color: context.watch<ThemeCubit>().state.colorScheme.secondary,
             elevation: 2,
             margin: const EdgeInsets.all(20),
             child: Padding(
@@ -70,11 +66,10 @@ class LoginState extends State<Login> {
                             if (id.isNotEmpty) {
                               setState(() {isFetching = true;});
                               try {
-                                final response = await http
-                                    .get(Uri.parse(
-                                        '''http://${context.watch<ServerCubit>().state.ip}:
-                                        ${context.watch<ServerCubit>().state.port}/login?userId=$id'''))
-                                    .timeout(Duration(seconds: int.parse(context.watch<ServerCubit>().state.timeout)));
+                                final response = await http.get(Uri.parse(
+                                        '''http://${context.read<ServerCubit>().state.ip}:
+                                        ${context.read<ServerCubit>().state.port}/login?userId=$id'''))
+                                    .timeout(Duration(seconds: int.parse(context.read<ServerCubit>().state.timeout)));
                                 if (response.statusCode == 200) {
                                   if (mounted) {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => Home(id: int.parse(id))));
@@ -96,6 +91,7 @@ class LoginState extends State<Login> {
                                   }
                                 }
                               } catch (e) {
+                                print(e);
                                 if (mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
