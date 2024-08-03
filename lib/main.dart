@@ -8,7 +8,7 @@ void main() {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
-        //BlocProvider(create: (_) => SettingsCubit()),
+        BlocProvider(create: (_) => ServerCubit()),
       ],
       child: const MyApp(),
     ),
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, 
-      title: '',
+      title: 'Travel Recommender',
       theme: context.watch<ThemeCubit>().state,
       home: const Login(),
     );

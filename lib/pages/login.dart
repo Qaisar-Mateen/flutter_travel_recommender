@@ -22,7 +22,7 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.watch<ThemeCubit>().state.colorScheme.surface,
+      //backgroundColor: context.watch<ThemeCubit>().state.colorScheme.surface,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -37,7 +37,7 @@ class LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Card(
-            color: context.watch<ThemeCubit>().state.colorScheme.primary,
+            //color: context.watch<ThemeCubit>().state.colorScheme.secondary,
             elevation: 2,
             margin: const EdgeInsets.all(20),
             child: Padding(
@@ -72,8 +72,9 @@ class LoginState extends State<Login> {
                               try {
                                 final response = await http
                                     .get(Uri.parse(
-                                        'http://192.168.1.9:5000/login?userId=$id'))
-                                    .timeout(const Duration(seconds: 5));
+                                        '''http://${context.watch<ServerCubit>().state.ip}:
+                                        ${context.watch<ServerCubit>().state.port}/login?userId=$id'''))
+                                    .timeout(Duration(seconds: int.parse(context.watch<ServerCubit>().state.timeout)));
                                 if (response.statusCode == 200) {
                                   if (mounted) {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => Home(id: int.parse(id))));

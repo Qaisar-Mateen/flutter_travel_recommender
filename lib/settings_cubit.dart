@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: ColorScheme.light(
-    surface: Colors.grey.shade300,
+    surface: Colors.grey.shade100,
     primary: Colors.grey.shade500,
     secondary: Colors.grey.shade100,
     inversePrimary: Colors.grey.shade900
@@ -14,9 +14,9 @@ ThemeData lightTheme = ThemeData(
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
-    surface: const Color.fromARGB(255, 33, 33, 33),
+    surface: const Color.fromARGB(255, 54, 53, 53),
     primary: Colors.grey.shade600,
-    secondary: const Color.fromARGB(255, 54, 53, 53),
+    secondary: const Color.fromARGB(255, 33, 33, 33),
     inversePrimary: Colors.grey.shade300
   )
 );
