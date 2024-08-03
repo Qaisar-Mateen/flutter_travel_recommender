@@ -28,3 +28,16 @@ class ThemeCubit extends Cubit<ThemeData> {
 
   bool isDark() => state.brightness == Brightness.dark;
 }
+
+
+class ServerState {
+  String ip;
+  String port;
+  String timeout;
+
+  ServerState({required this.ip, required this.port, required this.timeout});
+}
+
+class ServerCubit extends Cubit<ServerState> {
+  ServerCubit() : super(ServerState(ip: "192.168.1.9", port: "5000", timeout: "5"));
+}

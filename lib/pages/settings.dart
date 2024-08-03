@@ -5,8 +5,9 @@ import 'package:travel_recommender/settings_cubit.dart';
 // ignore: must_be_immutable
 class Settings extends StatelessWidget {
 
-  TextEditingController ipAddress = TextEditingController(text: "192.168.1.9");
-  TextEditingController port = TextEditingController(text: "5000");
+  TextEditingController ipAddress = TextEditingController();
+  TextEditingController port = TextEditingController();
+  TextEditingController timeout = TextEditingController();
 
   Settings({super.key});
 
@@ -49,25 +50,63 @@ class Settings extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center, 
                 children: [
                   const Text("Server Settings", style: TextStyle(fontWeight: FontWeight.bold),),
+
                   Padding(
                     padding: const EdgeInsets.only(top:30, bottom: 10),
-                    child: TextField(
-                      controller: ipAddress,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "IP Address",
-                      ),
+                    child: BlocBuilder<ServerCubit, ServerState>(
+                      builder: (context, state) {
+                        ipAddress.text = state.ip;
+                        return TextField(
+                          controller: ipAddress,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "IP Address",
+                          ),
+                          onChanged: (value) {
+                            state.ip = value;
+                          },
+                        );
+                      }
                     ),
                   ),
+                  
+                  Padding(
+                    padding: const EdgeInsets.only(top:10, bottom: 10),
+                    child: BlocBuilder<ServerCubit, ServerState>(
+                      builder: (context, state) {
+                        port.text = state.port;
+                        return TextField(
+                          controller: port,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Port",
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            state.port = value;
+                          },
+                        );
+                      }
+                    ),
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: TextField(
-                      controller: port,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Port",
-                      ),
-                      keyboardType: TextInputType.number,
+                    child: BlocBuilder<ServerCubit, ServerState>(
+                      builder: (context, state) {
+                        timeout.text = state.timeout;
+                        return TextField(
+                          controller: timeout,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Timeout",
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            state.timeout = value;
+                          },
+                        );
+                      }
                     ),
                   ),
                 ],
