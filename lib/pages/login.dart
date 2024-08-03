@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_recommender/pages/home.dart';
 import 'package:travel_recommender/pages/settings.dart';
+import 'package:travel_recommender/settings_cubit.dart';
 
 
 class Login extends StatefulWidget {
@@ -20,6 +22,7 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.watch<ThemeCubit>().state.colorScheme.surface,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -34,6 +37,7 @@ class LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Card(
+            color: context.watch<ThemeCubit>().state.colorScheme.primary,
             elevation: 2,
             margin: const EdgeInsets.all(20),
             child: Padding(

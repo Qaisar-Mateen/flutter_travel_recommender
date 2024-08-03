@@ -1,27 +1,30 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: ColorScheme.light(
     surface: Colors.grey.shade300,
-    primary: Colors.white
-  )
+    primary: Colors.grey.shade500,
+    secondary: Colors.grey.shade100,
+    inversePrimary: Colors.grey.shade900
+  ),
 );
-
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
-    surface: Colors.grey.shade900,
-    primary: Colors.grey.shade800
+    surface: const Color.fromARGB(255, 33, 33, 33),
+    primary: Colors.grey.shade600,
+    secondary: const Color.fromARGB(255, 54, 53, 53),
+    inversePrimary: Colors.grey.shade300
   )
 );
 
 class ThemeCubit extends Cubit<ThemeData> {
   ThemeCubit() : super(lightTheme);
 
-  toggleTheme() {emit(darkTheme);}
+  toggleTheme() {emit(isDark()? lightTheme:darkTheme);}
 
   bool isDark() => state.brightness == Brightness.dark;
 }
