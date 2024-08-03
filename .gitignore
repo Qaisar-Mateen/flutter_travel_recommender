@@ -44,3 +44,4 @@ app.*.map.json
 
 # Cache of Python recommender
 /lib/python_backend/recommender/__pycache__
+.vscode/launch.json
