@@ -1,6 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
 import "package:flutter/material.dart";
-import 'package:travel_recommender/pages/settings.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_recommender/pages/home.dart';
+import 'package:travel_recommender/pages/settings.dart';
 
 class Login extends StatelessWidget {
   
@@ -55,8 +57,9 @@ class Login extends StatelessWidget {
                           Uri.parse('http://192.168.1.9:5000/login?userId=$id'
                         ));
                         if(response.statusCode == 200) {
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home(id: int.parse(id))));
                         } else {
+                        
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text("Invalid User ID", textAlign: TextAlign.center,),
