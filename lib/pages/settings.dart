@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class Settings extends StatelessWidget {
 
-  TextEditingController ipAddress = TextEditingController(text: "127.0.0.1");
+  TextEditingController ipAddress = TextEditingController(text: "192.168.1.9");
   TextEditingController port = TextEditingController(text: "5000");
 
   Settings({super.key});
@@ -15,7 +15,7 @@ class Settings extends StatelessWidget {
       body: Column(
         children: [
           Card(
-            elevation: 0,
+            elevation: 2,
             margin: const EdgeInsets.fromLTRB(20, 15, 20, 10),
             child: Padding(
               padding: const EdgeInsets.only(top:12, left: 8, right: 8),
@@ -33,7 +33,7 @@ class Settings extends StatelessWidget {
           ),
 
           Card(
-            elevation: 0,
+            elevation: 2,
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Padding(
               padding: const EdgeInsets.only(top:12, left: 20, right: 20, bottom: 15),
