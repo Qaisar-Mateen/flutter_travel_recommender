@@ -14,116 +14,169 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("S E T T I N G S"), centerTitle: true,),// shadowColor: Colors.grey.shade500, elevation: 2,),
-      body: Padding(
-        padding: const EdgeInsets.only(top:15),
-        child: Column(
-          children: [
-            Card(
-              elevation: 2,
-              margin: const EdgeInsets.fromLTRB(20, 15, 20, 10),
-              child: Padding(
-                padding: const EdgeInsets.only(top:12, left: 8, right: 8),
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Theme Settings", style: TextStyle(fontWeight: FontWeight.bold),),
-                    BlocBuilder<ThemeCubit, ThemeData>(
-                      builder: (context, toggleTheme) {
-                        return Row(mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 23, bottom: 15, top: 10),
-                            child: Text("Dark Theme", style: TextStyle(fontSize: 16)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom:15, top:10, right: 23),
-                            child: CupertinoSwitch(
-                              value: context.read<ThemeCubit>().isDark(),
-                             onChanged: (value) {
-                              context.read<ThemeCubit>().toggleTheme();
-                             }),
-                          )
-                        ]);
-                      }
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top:15),
+          child: Column(
+            children: [
+              Card(
+                elevation: 2,
+                margin: const EdgeInsets.fromLTRB(20, 15, 20, 10),
+                child: Padding(
+                  padding: const EdgeInsets.only(top:12, left: 8, right: 8),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Theme Settings", style: TextStyle(fontWeight: FontWeight.bold),),
+                      BlocBuilder<ThemeCubit, ThemeData>(
+                        builder: (context, toggleTheme) {
+                          return Row(mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 23, bottom: 15, top: 10),
+                              child: Text("Dark Theme", style: TextStyle(fontSize: 16)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom:15, top:10, right: 23),
+                              child: CupertinoSwitch(
+                                value: context.read<ThemeCubit>().isDark(),
+                               onChanged: (value) {
+                                context.read<ThemeCubit>().toggleTheme();
+                               }),
+                            )
+                          ]);
+                        }
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-        
-            Card(
-              elevation: 2,
-              margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-              child: Padding(
-                padding: const EdgeInsets.only(top:12, left: 20, right: 20, bottom: 15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center, 
-                  children: [
-                    const Text("Server Settings", style: TextStyle(fontWeight: FontWeight.bold),),
-        
-                    Padding(
-                      padding: const EdgeInsets.only(top:30, bottom: 10),
-                      child: BlocBuilder<ServerCubit, ServerState>(
-                        builder: (context, state) {
-                          ipAddress.text = state.ip;
-                          return TextField(
-                            controller: ipAddress,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "IP Address",
-                            ),
-                            onChanged: (value) {
-                              state.ip = value;
-                            },
-                          );
-                        }
+          
+              Card(
+                elevation: 2,
+                margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Padding(
+                  padding: const EdgeInsets.only(top:12, left: 20, right: 20, bottom: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center, 
+                    children: [
+                      const Text("Server Settings", style: TextStyle(fontWeight: FontWeight.bold),),
+          
+                      Padding(
+                        padding: const EdgeInsets.only(top:30, bottom: 10),
+                        child: BlocBuilder<ServerCubit, ServerState>(
+                          builder: (context, state) {
+                            ipAddress.text = state.ip!;
+                            return TextField(
+                              controller: ipAddress,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "IP Address",
+                              ),
+                              onChanged: (value) {
+                                try {
+                                  state.ip = value;
+                                }
+                                catch(e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "$e",
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      elevation: 2,
+                                      shape: const StadiumBorder(),
+                                    )
+                                  );
+                                }
+                              },
+                            );
+                          }
+                        ),
                       ),
-                    ),
-                    
-                    Padding(
-                      padding: const EdgeInsets.only(top:10, bottom: 10),
-                      child: BlocBuilder<ServerCubit, ServerState>(
-                        builder: (context, state) {
-                          port.text = state.port;
-                          return TextField(
-                            controller: port,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Port",
-                            ),
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) {
-                              state.port = value;
-                            },
-                          );
-                        }
+                      
+                      Padding(
+                        padding: const EdgeInsets.only(top:10, bottom: 10),
+                        child: BlocBuilder<ServerCubit, ServerState>(
+                          builder: (context, state) {
+                            port.text = state.port!;
+                            return TextField(
+                              controller: port,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Port",
+                              ),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                try {
+                                  state.port = value;
+                                }
+                                catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "$e",
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      elevation: 2,
+                                      shape: const StadiumBorder(),
+                                    )
+                                  );
+                                }
+                              },
+                            );
+                          }
+                        ),
                       ),
-                    ),
-        
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: BlocBuilder<ServerCubit, ServerState>(
-                        builder: (context, state) {
-                          timeout.text = state.timeout;
-                          return TextField(
-                            controller: timeout,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Timeout",
-                            ),
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) {
-                              state.timeout = value;
-                            },
-                          );
-                        }
+          
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: BlocBuilder<ServerCubit, ServerState>(
+                          builder: (context, state) {
+                            timeout.text = state.timeout!;
+                            return TextField(
+                              controller: timeout,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Timeout",
+                              ),
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                try {
+                                  state.timeout = value;
+                                }
+                                catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "$e",
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      elevation: 2,
+                                      shape: const StadiumBorder(),
+                                    )
+                                  );
+                                }
+                              },
+                            );
+                          }
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

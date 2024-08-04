@@ -69,7 +69,7 @@ class LoginState extends State<Login> {
                                 final response = await http.get(Uri.parse(
                                         '''http://${context.read<ServerCubit>().state.ip}:
                                         ${context.read<ServerCubit>().state.port}/login?userId=$id'''))
-                                    .timeout(Duration(seconds: int.parse(context.read<ServerCubit>().state.timeout)));
+                                    .timeout(Duration(seconds: int.parse(context.read<ServerCubit>().state.timeout!)));
                                 if (response.statusCode == 200) {
                                   if (mounted) {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => Home(id: int.parse(id))));

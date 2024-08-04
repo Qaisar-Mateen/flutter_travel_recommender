@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  scaffoldBackgroundColor: Colors.blueGrey.shade50,
+  scaffoldBackgroundColor: Colors.grey.shade200,
   colorScheme: ColorScheme.light(
     surface: Colors.white,
     primary: Colors.grey.shade900,
@@ -26,6 +26,12 @@ ThemeData darkTheme = ThemeData(
     primary: Colors.grey.shade200,
     secondary: const Color.fromARGB(255, 33, 33, 33),
     inversePrimary: Colors.grey.shade300
+  ),
+  applyElevationOverlayColor: true,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.blue,
+    ),
   )
 );
 
@@ -60,20 +66,85 @@ class ThemeCubit extends Cubit<ThemeData> {
   ThemeData _getPreference() {
     _initPrefs();
     bool isDarkMode = _prefs?.getBool('theme') ?? false;
-    
+
     return isDarkMode? darkTheme : lightTheme;
   }
 }
 
 
 class ServerState {
-  String ip;
-  String port;
-  String timeout;
+  String? _ip;
+  String? _port;
+  String? _timeout;
+  SharedPreferences? _pref;
 
-  ServerState({required this.ip, required this.port, required this.timeout});
+  ServerState({String? iP, String? porT, String? timeouT}) {
+    _initPref();
+    _loadPref();
+    ip = iP ?? _ip;
+    port = porT ?? _port;
+    timeout = timeouT ?? _timeout;
+  }
+
+  _initPref() async {
+    _pref = await SharedPreferences.getInstance();
+  }
+
+  _loadPref() {
+    _ip = _pref!.getString('ip') ?? '192.168.1.9';
+    _port = _pref!.getString('port') ?? '5000';
+    _timeout = _pref!.getString('timeout') ?? '5';
+  }
+
+  _updatePref() {
+    _pref!.setString('ip', ip!);
+    _pref!.setString('port', port!);
+    _pref!.setString('timeout', timeout!);
+  }
+
+  String? get ip => _ip;
+  String? get port => _port;
+  String? get timeout => _timeout;
+
+  bool _isValidIp(String? ip) {
+    if (ip == null) return false;
+    final regex = RegExp(r'^(\d{1,3}\.){3}\d{1,3}$');
+    if (!regex.hasMatch(ip)) return false;
+
+    return ip.split('.').every((segment) {
+      final number = int.tryParse(segment);
+      return number != null && number >= 0 && number <= 255;
+    });
+  }
+
+  set ip (String? value) {
+    if(_isValidIp(value)) {
+      _ip = value;
+      _updatePref();
+    } else {
+      throw const FormatException("Invalid IP Format");
+    }
+  }
+
+  set port (String? value) {
+    if(_isValidIp(value)) {
+      _port = value;
+      _updatePref();
+    } else {
+      throw const FormatException("Invalid Port Format");
+    }
+  }
+
+  set timeout (String? value) {
+    if(_isValidIp(value)) {
+      _timeout = value;
+      _updatePref();
+    } else {
+      throw const FormatException("Invalid Timeout Format");
+    }
+  }
 }
 
 class ServerCubit extends Cubit<ServerState> {
-  ServerCubit() : super(ServerState(ip: "192.168.1.9", port: "5000", timeout: "5"));
+  ServerCubit() : super(ServerState());
 }
