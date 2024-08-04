@@ -34,7 +34,7 @@ class LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Card(
-            elevation: 2,
+            elevation: 10,
             margin: const EdgeInsets.all(20),
             child: Padding(
               padding: const EdgeInsets.all(20),

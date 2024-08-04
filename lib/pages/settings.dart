@@ -20,7 +20,7 @@ class Settings extends StatelessWidget {
           child: Column(
             children: [
               Card(
-                elevation: 2,
+                elevation: 10,
                 margin: const EdgeInsets.fromLTRB(20, 15, 20, 10),
                 child: Padding(
                   padding: const EdgeInsets.only(top:12, left: 8, right: 8),
@@ -53,7 +53,7 @@ class Settings extends StatelessWidget {
               ),
           
               Card(
-                elevation: 2,
+                elevation: 10,
                 margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Padding(
                   padding: const EdgeInsets.only(top:12, left: 20, right: 20, bottom: 15),

@@ -13,7 +13,8 @@ ThemeData lightTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue,
+      elevation: 5,
+      backgroundColor: const Color.fromARGB(255, 57, 192, 255),
     ),
   ),
   snackBarTheme: const SnackBarThemeData(
@@ -22,7 +23,7 @@ ThemeData lightTheme = ThemeData(
     ),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
-    elevation: 2,
+    elevation: 10,
     shape: StadiumBorder(),
   ),
 );
@@ -39,6 +40,7 @@ ThemeData darkTheme = ThemeData(
   applyElevationOverlayColor: true,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+      elevation: 5,
       backgroundColor: Colors.blue,
     ),
   ),
@@ -48,7 +50,7 @@ ThemeData darkTheme = ThemeData(
     ),
     backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
-    elevation: 2,
+    elevation: 10,
     shape: StadiumBorder(),
   ),
 );
@@ -115,9 +117,14 @@ class ServerState {
 
   _loadPref() async {
     await _initPref();
-    _ip = _pref!.getString('ip') ?? '192.168.1.9';
-    _port = _pref!.getString('port') ?? '5000';
-    _timeout = _pref!.getString('timeout') ?? '5';
+    try {
+      ip = _pref!.getString('ip') ?? '192.168.1.9';
+      port = _pref!.getString('port') ?? '5000';
+      timeout = _pref!.getString('timeout') ?? '5';
+    }
+    catch(e) {
+      print(e);
+    }
   }
 
   _updatePref() async {
