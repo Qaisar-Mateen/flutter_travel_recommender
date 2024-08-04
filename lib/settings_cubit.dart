@@ -126,8 +126,14 @@ class ServerState {
     }
   }
 
+  bool _isValidPort(String? port) {
+    if (port == null) return false;
+    final number = int.tryParse(port);
+    return number != null && number >= 0 && number <= 65535;
+  }
+
   set port (String? value) {
-    if(_isValidIp(value)) {
+    if(_isValidPort(value)) {
       _port = value;
       _updatePref();
     } else {
@@ -135,8 +141,14 @@ class ServerState {
     }
   }
 
+  bool _isValidTimeout(String? timeout) {
+    if (timeout == null) return false;
+    final number = int.tryParse(timeout);
+    return number != null && number > 0;
+  }
+
   set timeout (String? value) {
-    if(_isValidIp(value)) {
+    if(_isValidTimeout(value)) {
       _timeout = value;
       _updatePref();
     } else {
