@@ -28,11 +28,15 @@ class Home extends StatelessWidget {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
+          padding: const EdgeInsets.all(8),
           child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               if (state is HomeLoading) {
-                return const CircularProgressIndicator.adaptive();
+                return const Column(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(child: CircularProgressIndicator()),
+                  ],
+                );
               }
               if (state is HomeLoaded) {
                 return Column(
@@ -45,7 +49,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    PopularDestinationSection(),
+                    PopularDestinationSection(popular: state.popular),
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
@@ -53,7 +57,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    ForYouSection(),
+                    ForYouSection(recommend: state.recommended),
                   ],
                 );
               }
@@ -75,30 +79,45 @@ class Home extends StatelessWidget {
 }
 
 class PopularDestinationSection extends StatelessWidget {
+  final List<String> popular;
+
+  const PopularDestinationSection({required this.popular, super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: popular.length,
         itemBuilder: (context, index) {
-          return Card(
-            child: Container(
-              width: 150,
-              child: Column(
-                children: [
-                  Image.network(
-                    'https://via.placeholder.com/150',
-                    height: 100,
-                    width: 150,
-                    fit: BoxFit.cover,
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 15, right: 5, left: 4),
+            child: Card(
+              elevation: 10,
+              child: SizedBox(
+                width: 155,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'https://via.placeholder.com/150',
+                          height: 100,
+                          width: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.5, left: 5, right: 5),
+                        child: Text(popular[index], style: const TextStyle(fontSize: 16), maxLines: 1,),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Destination $index'),
-                  ),
-                ],
+                ),
               ),
             ),
           );
@@ -109,6 +128,10 @@ class PopularDestinationSection extends StatelessWidget {
 }
 
 class ForYouSection extends StatelessWidget {
+  final List<String> recommend;
+
+  const ForYouSection({required this.recommend, super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

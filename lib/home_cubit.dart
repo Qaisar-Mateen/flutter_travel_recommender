@@ -9,8 +9,8 @@ abstract class HomeState {}
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
-  List<String>? popular;
-  List<String>? recommended;
+  List<String> popular;
+  List<String> recommended;
 
   HomeLoaded({required this.popular, required this.recommended});
 }
@@ -28,6 +28,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit({required this.server}) : super(HomeLoading());
 
   fetchData(int id) async {
+    await Future.delayed(const Duration(seconds: 5));
     try{
       final response1 = await http.get(
         Uri.parse(
