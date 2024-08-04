@@ -73,11 +73,12 @@ class Settings extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 labelText: "IP Address",
                               ),
-                              onChanged: (value) {
+                              onSubmitted: (value) {
                                 try {
                                   state.ip = value;
                                 }
                                 catch(e) {
+                                  ipAddress.text = state.ip;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text("$e", textAlign: TextAlign.center),)
                                   );
@@ -100,11 +101,12 @@ class Settings extends StatelessWidget {
                                 labelText: "Port",
                               ),
                               keyboardType: TextInputType.number,
-                              onChanged: (value) {
+                              onSubmitted: (value) {
                                 try {
                                   state.port = value;
                                 }
                                 catch (e) {
+                                  port.text = state.port;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("$e", textAlign: TextAlign.center)
@@ -129,11 +131,12 @@ class Settings extends StatelessWidget {
                                 labelText: "Timeout",
                               ),
                               keyboardType: TextInputType.number,
-                              onChanged: (value) {
+                              onSubmitted: (value) {
                                 try {
                                   state.timeout = value;
                                 }
                                 catch (e) {
+                                  timeout.text = state.timeout;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("$e", textAlign: TextAlign.center)
