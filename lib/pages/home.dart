@@ -87,41 +87,57 @@ class PopularDestinationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: popular.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 15, right: 5, left: 4),
-            child: Card(
-              elevation: 10,
-              child: SizedBox(
-                width: 155,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          'https://via.placeholder.com/150',
-                          height: 100,
-                          width: 150,
-                          fit: BoxFit.cover,
+      child: ShaderMask(
+        shaderCallback: (Rect bounds) {
+          return const LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Colors.transparent,
+              Colors.black,
+              Colors.black,
+              Colors.transparent,
+            ],
+            stops: [0.0, 0.05, 0.95, 1.0],
+          ).createShader(bounds);
+        },
+        blendMode: BlendMode.dstIn,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: popular.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 15, right: 5, left: 4),
+              child: Card(
+                elevation: 10,
+                child: SizedBox(
+                  width: 155,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            'https://via.placeholder.com/150',
+                            height: 100,
+                            width: 150,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16.5, left: 5, right: 5),
-                        child: Text(popular[index], style: const TextStyle(fontSize: 16), maxLines: 1,),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.5, left: 5, right: 5),
+                          child: Text(popular[index], style: const TextStyle(fontSize: 16), maxLines: 1,),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -140,6 +156,7 @@ class ForYouSection extends StatelessWidget {
       itemCount: 10,
       itemBuilder: (context, index) {
         return Card(
+          elevation: 10,
           child: ListTile(
             leading: Image.network(
               'https://via.placeholder.com/150',
