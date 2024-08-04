@@ -66,7 +66,7 @@ class Settings extends StatelessWidget {
                         padding: const EdgeInsets.only(top:30, bottom: 10),
                         child: BlocBuilder<ServerCubit, ServerState>(
                           builder: (context, state) {
-                            ipAddress.text = state.ip!;
+                            ipAddress.text = state.ip;
                             return TextField(
                               controller: ipAddress,
                               decoration: const InputDecoration(
@@ -92,7 +92,7 @@ class Settings extends StatelessWidget {
                         padding: const EdgeInsets.only(top:10, bottom: 10),
                         child: BlocBuilder<ServerCubit, ServerState>(
                           builder: (context, state) {
-                            port.text = state.port!;
+                            port.text = state.port;
                             return TextField(
                               controller: port,
                               decoration: const InputDecoration(
@@ -121,7 +121,7 @@ class Settings extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 10),
                         child: BlocBuilder<ServerCubit, ServerState>(
                           builder: (context, state) {
-                            timeout.text = state.timeout!;
+                            timeout.text = state.timeout;
                             return TextField(
                               controller: timeout,
                               decoration: const InputDecoration(

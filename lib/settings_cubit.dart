@@ -115,14 +115,14 @@ class ServerState {
   }
 
   _updatePref() {
-    _pref!.setString('ip', ip!);
-    _pref!.setString('port', port!);
-    _pref!.setString('timeout', timeout!);
+    _pref!.setString('ip', ip);
+    _pref!.setString('port', port);
+    _pref!.setString('timeout', timeout);
   }
 
-  String? get ip => _ip;
-  String? get port => _port;
-  String? get timeout => _timeout;
+  String get ip => (_ip != null)? _ip! : "192.168.1.9";
+  String get port =>(_port != null)? _port! : "5000";
+  String get timeout => (_timeout != null)? _timeout! : "5";
 
   bool _isValidIp(String? ip) {
     if (ip == null) return false;
