@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/home_cubit.dart';
+import 'package:travel_recommender/pages/drawer.dart';
 import 'package:travel_recommender/pages/settings.dart';
 
 class Home extends StatelessWidget {
@@ -25,6 +26,8 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
+
+      drawer: myDrawer(),
 
       body: SingleChildScrollView(
         child: Padding(
@@ -152,28 +155,38 @@ class ForYouSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: 10,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: recommend.length,
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 10,
-          child: ListTile(
-            leading: Image.network(
-              'https://via.placeholder.com/150',
-              height: 50,
-              width: 50,
-              fit: BoxFit.cover,
+        return Padding(
+          padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
+          child: Card(
+            elevation: 10,
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      'https://via.placeholder.com/150',
+                      height: 100,
+                      width: 150,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+          
+                SizedBox(
+                  width: 155,
+                  child: Text(recommend[index], style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,)
+                ),
+              ],
             ),
-            title: Text('Recommendation $index'),
           ),
         );
       },
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Home(id: 1),
-  ));
 }

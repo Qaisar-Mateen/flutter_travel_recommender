@@ -72,7 +72,7 @@ class LoginState extends State<Login> {
                                     .timeout(Duration(seconds: int.parse(context.read<ServerCubit>().state.timeout)));
                                 if (response.statusCode == 200) {
                                   if (mounted) {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Home(id: int.parse(id))));
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(id: int.parse(id))));
                                   }
                                 } else {
                                   if (mounted) {
