@@ -78,15 +78,7 @@ class LoginState extends State<Login> {
                                   if (mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text(
-                                          "Invalid User ID",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        backgroundColor: Colors.red,
-                                        behavior: SnackBarBehavior.floating,
-                                        elevation: 2,
-                                        shape: StadiumBorder(),
+                                        content: Text("Invalid User ID", textAlign: TextAlign.center),
                                       ),
                                     );
                                   }
@@ -95,15 +87,7 @@ class LoginState extends State<Login> {
                                 if (mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text(
-                                        "Something is wrong with the server",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: Colors.red,
-                                      behavior: SnackBarBehavior.floating,
-                                      elevation: 2,
-                                      shape: StadiumBorder(),
+                                      content: Text("Something is wrong with the server", textAlign: TextAlign.center)
                                     ),
                                   );
                                 }
@@ -117,15 +101,7 @@ class LoginState extends State<Login> {
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text(
-                                    "Please enter your ID",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  backgroundColor: Colors.red,
-                                  behavior: SnackBarBehavior.floating,
-                                  elevation: 2,
-                                  shape: StadiumBorder(),
+                                  content: Text("Please enter your ID", textAlign: TextAlign.center)
                                 ),
                               );
                             }

@@ -16,6 +16,15 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: Colors.blue,
     ),
   ),
+  snackBarTheme: const SnackBarThemeData(
+    contentTextStyle: TextStyle(
+      color: Colors.white
+    ),
+    backgroundColor: Colors.red,
+    behavior: SnackBarBehavior.floating,
+    elevation: 2,
+    shape: StadiumBorder(),
+  ),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -32,7 +41,16 @@ ThemeData darkTheme = ThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.blue,
     ),
-  )
+  ),
+  snackBarTheme: const SnackBarThemeData(
+    contentTextStyle: TextStyle(
+      color: Colors.white
+    ),
+    backgroundColor: Colors.red,
+    behavior: SnackBarBehavior.floating,
+    elevation: 2,
+    shape: StadiumBorder(),
+  ),
 );
 
 class ThemeCubit extends Cubit<ThemeData> {

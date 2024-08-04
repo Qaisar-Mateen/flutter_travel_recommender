@@ -79,17 +79,7 @@ class Settings extends StatelessWidget {
                                 }
                                 catch(e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "$e",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: Colors.red,
-                                      behavior: SnackBarBehavior.floating,
-                                      elevation: 2,
-                                      shape: const StadiumBorder(),
-                                    )
+                                    SnackBar(content: Text("$e", textAlign: TextAlign.center),)
                                   );
                                 }
                               },
@@ -117,15 +107,7 @@ class Settings extends StatelessWidget {
                                 catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                        "$e",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: Colors.red,
-                                      behavior: SnackBarBehavior.floating,
-                                      elevation: 2,
-                                      shape: const StadiumBorder(),
+                                      content: Text("$e", textAlign: TextAlign.center)
                                     )
                                   );
                                 }
@@ -154,15 +136,7 @@ class Settings extends StatelessWidget {
                                 catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                        "$e",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: Colors.red,
-                                      behavior: SnackBarBehavior.floating,
-                                      elevation: 2,
-                                      shape: const StadiumBorder(),
+                                      content: Text("$e", textAlign: TextAlign.center)
                                     )
                                   );
                                 }
