@@ -13,7 +13,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("S E T T I N G S"), centerTitle: true,),// shadowColor: Colors.grey.shade500, elevation: 2,),
+      appBar: AppBar(title: const Text("S E T T I N G S"), centerTitle: true,),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top:15),

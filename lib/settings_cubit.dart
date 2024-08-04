@@ -98,11 +98,7 @@ class ServerState {
   String? _timeout;
   SharedPreferences? _pref;
 
-  ServerState._internal({String? iP, String? porT, String? timeouT}) {
-    ip = _isValidIp(iP) ? iP : '192.168.1.9';
-    port = _isValidPort(porT) ? porT : '5000';
-    timeout = _isValidTimeout(timeouT) ? timeouT : '5';
-  }
+  ServerState._internal({String? iP, String? porT, String? timeouT});
 
   //to wait for async function before emitting state
   static Future<ServerState> create({String? iP, String? porT, String? timeouT}) async {
@@ -118,6 +114,10 @@ class ServerState {
   _loadPref() async {
     await _initPref();
     try {
+      if (_pref == null) { 
+        print("ye ha BC");
+      }
+      print(_pref!.getString('ip'));
       ip = _pref!.getString('ip') ?? '192.168.1.9';
       port = _pref!.getString('port') ?? '5000';
       timeout = _pref!.getString('timeout') ?? '5';
@@ -129,12 +129,15 @@ class ServerState {
 
   _updatePref() async {
     await _initPref();
+    if (_pref == null) {
+      print("ye ha BC");
+    }
     _pref!.setString('ip', ip);
     _pref!.setString('port', port);
     _pref!.setString('timeout', timeout);
   }
 
-  String get ip => (_ip != null)? _ip! : "192.168.1.9";
+  String get ip => (_ip != null)? _ip! : "192.168.1.7";
   String get port =>(_port != null)? _port! : "5000";
   String get timeout => (_timeout != null)? _timeout! : "5";
 
@@ -190,5 +193,12 @@ class ServerState {
 }
 
 class ServerCubit extends Cubit<ServerState> {
-  ServerCubit() : super(ServerState._internal());
+  ServerCubit() : super(ServerState._internal()){
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    final initialState = await ServerState.create();
+    emit(initialState);
+  }
 }
