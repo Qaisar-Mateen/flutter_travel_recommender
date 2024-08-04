@@ -4,6 +4,7 @@ import 'package:travel_recommender/pages/login.dart';
 import 'package:travel_recommender/settings_cubit.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiBlocProvider(
       providers: [
