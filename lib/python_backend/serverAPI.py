@@ -1,10 +1,10 @@
 import flask
 import warnings
+warnings.filterwarnings(action='ignore', message=".*pyarrow.*", category=DeprecationWarning)
 import pandas as pd
 from flask import request
 import recommender.HybridRecommender as recommender
-
-warnings.simplefilter(action='ignore', category=DeprecationWarning)
+from recommender.PopularityRecommender import PopularityRecommender
 
 app = flask.Flask(__name__)
 
@@ -25,16 +25,24 @@ def login():
 @app.route("/recommend", methods=["GET"])
 def recommend():
     userId = request.args.get("userId")
-    if userId is None:
-        return "No userId provided", 400
     
-    hr = recommender.HybridRecommender(collaborative_model=(True, userId, 'CF_Neural_Model3.7.bin'),
-        popularity_model=True, content_model=True,
-        popular_weight=0.15, collab_weight=0.7, content_weight=0.15
-    )
+    if "popular" in request.args:
+        hr = PopularityRecommender()
+        recommendations =  hr.recommend()
+        recommendations = recommendations.sort_values(by='Popularity', ascending=False)
+        return recommendations.to_json(orient='records')
+    
+    elif userId is None:
+        return {'valid': False}, 400
 
-    recommendations = hr.recommend()
-    return recommendations.to_json(orient='records')
+    else:
+        hr = recommender.HybridRecommender(collaborative_model=(True, userId, 'CF_Neural_Model3.7.bin'),
+            popularity_model=True, content_model=True,
+            popular_weight=0.15, collab_weight=0.7, content_weight=0.15
+        )
+
+        recommendations = hr.recommend()
+        return recommendations.to_json(orient='records')
 
 if __name__ == "__main__":
     app.run(debug= True, host="0.0.0.0", port=5000)
