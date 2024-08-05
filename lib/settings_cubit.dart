@@ -125,7 +125,7 @@ class ServerState {
     _pref!.setString('timeout', timeout);
   }
 
-  String get ip => (_ip != null)? _ip! : "192.168.1.7";
+  String get ip => (_ip != null)? _ip! : "192.168.1.5";
   String get port =>(_port != null)? _port! : "5000";
   String get timeout => (_timeout != null)? _timeout! : "5";
 

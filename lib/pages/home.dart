@@ -70,11 +70,7 @@ class Home extends StatelessWidget {
           child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               if (state is HomeLoading) {
-                return const Column(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const HomeSkeleton(),
-                  ],
-                );
+               const HomeSkeleton();
               }
               if (state is HomeLoaded) {
                 return Column(

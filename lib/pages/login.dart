@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
-
 import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_recommender/pages/home.dart';
@@ -84,6 +84,9 @@ class LoginState extends State<Login> {
                                   }
                                 }
                               } catch (e) {
+                                if (kDebugMode) {
+                                  print(e);
+                                }
                                 if (mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -106,9 +109,7 @@ class LoginState extends State<Login> {
                               );
                             }
                           },
-                    child: isFetching
-                        ? const Text("Verifying...")
-                        : const Text("Login"),
+                    child: isFetching? const Text("Verifying...") : const Text("Login"),
                   ),
                 ],
               ),
