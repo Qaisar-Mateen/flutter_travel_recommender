@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
         ],
       ),
 
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(id: id),
 
       body: SingleChildScrollView(
         child: Padding(
