@@ -63,4 +63,8 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  logout() {
+    emit(HomeLoading());
+  }
+
 }

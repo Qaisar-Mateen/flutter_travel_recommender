@@ -28,34 +28,33 @@ class Home extends StatelessWidget {
       ),
 
       drawer: Drawer(
-        child: Expanded(
-          child: Column(
-            children: [
-              const DrawerHeader(child: Icon(Icons.account_circle, size: 130)),
-        
-              Padding(padding: const EdgeInsets.only(left: 25, top: 10),
-              child: ListTile(
-                title: const Text("H O M E"),
-                leading: const Icon(Icons.home),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              )),
-        
-              Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(child: const Text('Logout'),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Login()),
-                    (Route<dynamic> route) => false
-                  );
-                },
-              ),
+        child: Column(
+          children: [
+            const DrawerHeader(child: Icon(Icons.account_circle, size: 130)),
+                
+            Padding(padding: const EdgeInsets.only(left: 25, top: 10),
+            child: ListTile(
+              title: const Text("H O M E"),
+              leading: const Icon(Icons.home),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            )),
+                
+            Align(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(child: const Text('Logout'),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                  (Route<dynamic> route) => false
+                );
+                context.read<HomeCubit>().logout();
+              },
             ),
-          ],),
-        ),
+          ),
+        ],),
       ),
 
       body: SingleChildScrollView(
