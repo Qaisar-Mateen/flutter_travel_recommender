@@ -1,6 +1,4 @@
 import flask
-import warnings
-warnings.filterwarnings(action='ignore', message=".*pyarrow.*", category=DeprecationWarning)
 import pandas as pd
 from flask import request
 import recommender.HybridRecommender as recommender
