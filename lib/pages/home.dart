@@ -70,7 +70,7 @@ class Home extends StatelessWidget {
           child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               if (state is HomeLoading) {
-               const HomeSkeleton();
+               return const HomeSkeleton();
               }
               if (state is HomeLoaded) {
                 return Column(
@@ -232,13 +232,16 @@ class HomeSkeleton extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Container(
-              width: 200,
-              height: 20,
-              color: Colors.white,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Shimmer.fromColors(
+              baseColor: Theme.of(context).colorScheme.inversePrimary,
+              highlightColor: Theme.of(context).colorScheme.secondary,
+              child: Container(
+                width: 200,
+                height: 25,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -246,15 +249,15 @@ class HomeSkeleton extends StatelessWidget {
           height: 200,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 5,
+            itemCount: 4,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 15, right: 5, left: 4),
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
-                  child: Card(
-                    elevation: 10,
+                child: Card(
+                  elevation: 10,
+                  child: Shimmer.fromColors(
+                    baseColor: Theme.of(context).colorScheme.inversePrimary,
+                    highlightColor: Theme.of(context).colorScheme.secondary,
                     child: SizedBox(
                       width: 155,
                       child: Padding(
@@ -262,15 +265,25 @@ class HomeSkeleton extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              height: 100,
-                              width: 150,
-                              color: Colors.white,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                height: 100,
+                                width: 150,
+                                color: Colors.white,
+                              ),
                             ),
-                            Container(
-                              height: 20,
-                              width: 100,
-                              color: Colors.white,
+
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.5),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  height: 20,
+                                  width: 100,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -282,18 +295,23 @@ class HomeSkeleton extends StatelessWidget {
             },
           ),
         ),
+
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Container(
-              width: 200,
-              height: 20,
-              color: Colors.white,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Shimmer.fromColors(
+              baseColor: Theme.of(context).colorScheme.inversePrimary,
+              highlightColor: Theme.of(context).colorScheme.secondary,
+              child: Container(
+                width: 120,
+                height: 25,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
+
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -301,26 +319,34 @@ class HomeSkeleton extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
-              child: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: Card(
-                  elevation: 10,
+              child: Card(
+                elevation: 10,
+                child: Shimmer.fromColors(
+                  baseColor: Theme.of(context).colorScheme.inversePrimary,
+                  highlightColor: Theme.of(context).colorScheme.secondary,
                   child: Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 100,
-                          width: 150,
-                          color: Colors.white,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 100,
+                            width: 150,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        width: 155,
-                        child: Container(
-                          height: 20,
-                          color: Colors.white,
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Container(
+                            width: 105,
+                            height: 20,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],

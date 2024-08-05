@@ -28,7 +28,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit({required this.server}) : super(HomeLoading());
 
   fetchData(int id) async {
-    await Future.delayed(const Duration(seconds: 15));
+    await Future.delayed(const Duration(seconds: 10));
     try{
       final response1 = await http.get(
         Uri.parse(
