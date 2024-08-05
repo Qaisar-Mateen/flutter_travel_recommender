@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/home_cubit.dart';
-import 'package:travel_recommender/pages/drawer.dart';
+import 'package:travel_recommender/pages/login.dart';
 import 'package:travel_recommender/pages/settings.dart';
 
 class Home extends StatelessWidget {
@@ -27,7 +27,36 @@ class Home extends StatelessWidget {
         ],
       ),
 
-      drawer: MyDrawer(id: id),
+      drawer: Drawer(
+        child: Expanded(
+          child: Column(
+            children: [
+              const DrawerHeader(child: Icon(Icons.account_circle, size: 130)),
+        
+              Padding(padding: const EdgeInsets.only(left: 25, top: 10),
+              child: ListTile(
+                title: const Text("H O M E"),
+                leading: const Icon(Icons.home),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              )),
+        
+              Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(child: const Text('Logout'),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
+                    (Route<dynamic> route) => false
+                  );
+                },
+              ),
+            ),
+          ],),
+        ),
+      ),
 
       body: SingleChildScrollView(
         child: Padding(
