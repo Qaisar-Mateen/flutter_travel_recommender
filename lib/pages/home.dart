@@ -1,3 +1,4 @@
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/home_cubit.dart';
@@ -40,21 +41,27 @@ class Home extends StatelessWidget {
                 Navigator.pop(context);
               },
             )),
-                
-            Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(child: const Text('Logout'),
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Login()),
-                  (Route<dynamic> route) => false
-                );
-                context.read<HomeCubit>().logout();
-              },
+              
+            const Spacer(),
+
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(child: const Text('Logout'),
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                      (Route<dynamic> route) => false
+                    );
+                    context.read<HomeCubit>().logout();
+                  },
+                ),
+              ),
             ),
-          ),
-        ],),
+          ],
+        ),
       ),
 
       body: SingleChildScrollView(
@@ -65,7 +72,7 @@ class Home extends StatelessWidget {
               if (state is HomeLoading) {
                 return const Column(mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(child: CircularProgressIndicator()),
+                    const HomeSkeleton(),
                   ],
                 );
               }
@@ -215,6 +222,119 @@ class ForYouSection extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class HomeSkeleton extends StatelessWidget {
+  const HomeSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: 200,
+              height: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 15, right: 5, left: 4),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Card(
+                    elevation: 10,
+                    child: SizedBox(
+                      width: 155,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 150,
+                              color: Colors.white,
+                            ),
+                            Container(
+                              height: 20,
+                              width: 100,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: 200,
+              height: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Card(
+                  elevation: 10,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 100,
+                          width: 150,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 155,
+                        child: Container(
+                          height: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
