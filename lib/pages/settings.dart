@@ -39,10 +39,11 @@ class Settings extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom:15, top:10, right: 23),
                               child: CupertinoSwitch(
+                                applyTheme: true,
                                 value: context.read<ThemeCubit>().isDark(),
                                onChanged: (value) {
                                 context.read<ThemeCubit>().toggleTheme();
-                               }),
+                              }),
                             )
                           ]);
                         }

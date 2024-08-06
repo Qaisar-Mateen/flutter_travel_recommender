@@ -32,6 +32,11 @@ class Home extends StatelessWidget {
         child: Column(
           children: [
             const DrawerHeader(child: Icon(Icons.account_circle, size: 130)),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Text("User ID: $id", textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+            ),
                 
             Padding(padding: const EdgeInsets.only(left: 25, top: 10),
             child: ListTile(
@@ -326,13 +331,13 @@ class HomeSkeleton extends StatelessWidget {
                   highlightColor: Theme.of(context).colorScheme.secondary,
                   child: Row(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 100,
-                            width: 150,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 100,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
                             color: Colors.white,
                           ),
                         ),

@@ -20,6 +20,21 @@ class LoginState extends State<Login> {
   bool isFetching = false;
 
   @override
+  void initState() async {
+    try{
+      await http.get(Uri.parse('''http://${context.read<ServerCubit>().state.ip}:
+        ${context.read<ServerCubit>().state.port}/login?userId=0''')
+      );
+    }
+    catch(e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
