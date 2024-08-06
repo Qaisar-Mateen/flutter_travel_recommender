@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/settings_cubit.dart';
@@ -39,7 +40,9 @@ class Settings extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom:15, top:10, right: 23),
                               child: CupertinoSwitch(
-                                applyTheme: true,
+                                activeColor: Colors.blue,
+                                trackColor: const Color.fromARGB(255, 57, 192, 255),
+                                dragStartBehavior: DragStartBehavior.down,
                                 value: context.read<ThemeCubit>().isDark(),
                                onChanged: (value) {
                                 context.read<ThemeCubit>().toggleTheme();

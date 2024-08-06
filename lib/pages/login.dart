@@ -18,20 +18,25 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   final TextEditingController idController = TextEditingController();
   bool isFetching = false;
+  bool firstTime = true;
 
-  @override
-  void initState() async {
-    try{
-      await http.get(Uri.parse('''http://${context.read<ServerCubit>().state.ip}:
-        ${context.read<ServerCubit>().state.port}/login?userId=0''')
-      );
-    }
-    catch(e) {
-      if (kDebugMode) {
-        print(e);
+  first(BuildContext context) async {
+    if (firstTime) {
+      try{
+        final a = await http.get(Uri.parse('''http://${context.read<ServerCubit>().state.ip}:
+          ${context.read<ServerCubit>().state.port}/login?userId=0''')
+        ).timeout(const Duration(seconds: 2));
+        if (kDebugMode) {
+          print(a);
+        }
       }
+      catch(e) {
+        if (kDebugMode) {
+          print(e);
+        }
+      }
+      firstTime = false;
     }
-    super.initState();
   }
 
   @override

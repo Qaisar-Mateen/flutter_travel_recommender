@@ -9,7 +9,8 @@ ThemeData lightTheme = ThemeData(
     surface: Colors.white,
     primary: Colors.grey.shade900,
     secondary: Colors.grey.shade200,
-    inversePrimary: Colors.grey.shade300
+    inversePrimary: Colors.grey.shade300,
+    scrim: const Color.fromARGB(255, 57, 192, 255)
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
@@ -35,7 +36,8 @@ ThemeData darkTheme = ThemeData(
     surface: const Color.fromARGB(255, 47, 46, 46),
     primary: Colors.grey.shade200,
     secondary: const Color.fromARGB(255, 45, 43, 43),
-    inversePrimary: const Color.fromARGB(255, 78, 75, 75)
+    inversePrimary: const Color.fromARGB(255, 78, 75, 75),
+    scrim: Colors.blue,
   ),
   applyElevationOverlayColor: true,
   elevatedButtonTheme: ElevatedButtonThemeData(
