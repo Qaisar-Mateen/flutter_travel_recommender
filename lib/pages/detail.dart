@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_recommender/pages/settings.dart';
 
 class Detail extends StatelessWidget {
   final int countryId;
@@ -7,6 +8,17 @@ class Detail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
