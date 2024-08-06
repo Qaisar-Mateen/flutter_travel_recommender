@@ -9,8 +9,8 @@ abstract class HomeState {}
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
-  List<String> popular;
-  List<String> recommended;
+  List<Map<String, dynamic>> popular;
+  List<Map<String, dynamic>> recommended;
 
   HomeLoaded({required this.popular, required this.recommended});
 }
@@ -46,8 +46,12 @@ class HomeCubit extends Cubit<HomeState> {
         final List<dynamic> popularJson = jsonDecode(response1.body);
         final List<dynamic> recommendedJson = jsonDecode(response2.body);
 
-        final List<String> popular = popularJson.map((item) => item['Country'] as String).toList();
-        final List<String> recommended = recommendedJson.map((item) => item['Country'] as String).toList();
+        final List<Map<String, dynamic>> popular = popularJson.map((item) => {
+            'ID': item['ID'] as int,
+            'Country': item['Country'] as String,
+          }).toList();
+
+        final List<Map<String, dynamic>> recommended = recommendedJson.map((item) => {'ID': item['id'] as int, 'Country': item['Country'] as String}).toList();
  
         emit(HomeLoaded(popular: popular, recommended: recommended));
       }

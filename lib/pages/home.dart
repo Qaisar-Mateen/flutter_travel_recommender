@@ -2,6 +2,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/home_cubit.dart';
+import 'package:travel_recommender/pages/detail.dart';
 import 'package:travel_recommender/pages/login.dart';
 import 'package:travel_recommender/pages/settings.dart';
 
@@ -118,7 +119,7 @@ class Home extends StatelessWidget {
 }
 
 class PopularDestinationSection extends StatelessWidget {
-  final List<String> popular;
+  final List<Map<String, dynamic>> popular;
 
   const PopularDestinationSection({required this.popular, super.key});
 
@@ -147,29 +148,34 @@ class PopularDestinationSection extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 15, right: 5, left: 4),
-              child: Card(
-                elevation: 10,
-                child: SizedBox(
-                  width: 155,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            'https://via.placeholder.com/150',
-                            height: 100,
-                            width: 150,
-                            fit: BoxFit.cover,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(countryId: popular[index]['ID'])));
+                },
+                child: Card(
+                  elevation: 10,
+                  child: SizedBox(
+                    width: 155,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              'https://via.placeholder.com/150',
+                              height: 100,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.5, left: 5, right: 5),
-                          child: Text(popular[index], style: const TextStyle(fontSize: 16), maxLines: 1,),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16.5, left: 5, right: 5),
+                            child: Text(popular[index]["Country"], style: const TextStyle(fontSize: 16), maxLines: 1,),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -183,7 +189,7 @@ class PopularDestinationSection extends StatelessWidget {
 }
 
 class ForYouSection extends StatelessWidget {
-  final List<String> recommend;
+  final List<Map<String, dynamic>> recommend;
 
   const ForYouSection({required this.recommend, super.key});
 
@@ -196,29 +202,33 @@ class ForYouSection extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
-          child: Card(
-            elevation: 10,
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      'https://via.placeholder.com/150',
-                      height: 100,
-                      width: 150,
-                      fit: BoxFit.cover,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(countryId: recommend[index]['ID'])));
+            },
+            child: Card(
+              elevation: 10,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        'https://via.placeholder.com/150',
+                        height: 100,
+                        width: 150,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-          
-                SizedBox(
-                  width: 155,
-                  child: Text(recommend[index], style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,)
-                ),
-              ],
+            
+                  SizedBox(
+                    width: 155,
+                    child: Text(recommend[index]['Country'], style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,)
+                  ),
+                ],
+              ),
             ),
           ),
         );
