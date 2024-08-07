@@ -31,7 +31,13 @@ class DetailCubit extends Cubit<DetailState> {
       ));
 
       if(response.statusCode == 200){
+        final List<dynamic> cityJson = jsonDecode(response.body);
 
+        final List<Map<String, dynamic>> city = cityJson.map((item) => {
+          'name': item['name'], 'latitude': item['lat'], 'longitude': item['lng']
+        }).toList();
+
+        emit(DetailLoaded(cities: city));
       } else {
         emit(DetailError(msg: "Couldn't Fetch Data From Server"));  
       }
