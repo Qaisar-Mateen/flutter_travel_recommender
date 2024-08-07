@@ -17,7 +17,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('H O M E'),
+        title: const Text('Home'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -150,7 +150,7 @@ class PopularDestinationSection extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 15, right: 5, left: 4),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(countryId: popular[index]['ID'])));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(countryId: popular[index]['ID'], name: popular[index]['Country'], )));
                 },
                 child: Card(
                   elevation: 10,
@@ -204,7 +204,7 @@ class ForYouSection extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
           child: GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(countryId: recommend[index]['ID'])));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(countryId: recommend[index]['ID'], name: recommend[index]['Country'])));
             },
             child: Card(
               elevation: 10,
