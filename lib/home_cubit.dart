@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/settings_cubit.dart';
@@ -45,14 +46,16 @@ class HomeCubit extends Cubit<HomeState> {
       if (response1.statusCode == 200 && response2.statusCode == 200) {
         final List<dynamic> popularJson = jsonDecode(response1.body);
         final List<dynamic> recommendedJson = jsonDecode(response2.body);
-
         final List<Map<String, dynamic>> popular = popularJson.map((item) => {
-            'ID': item['ID'] as int,
+            'ID': item['ID'],
             'Country': item['Country'] as String,
           }).toList();
 
-        final List<Map<String, dynamic>> recommended = recommendedJson.map((item) => {'ID': item['id'] as int, 'Country': item['Country'] as String}).toList();
- 
+        final List<Map<String, dynamic>> recommended = recommendedJson.map((item) => {
+          'ID': item['ID'],
+          'Country': item['Country'] as String}
+        ).toList();
+
         emit(HomeLoaded(popular: popular, recommended: recommended));
       }
 
@@ -63,6 +66,9 @@ class HomeCubit extends Cubit<HomeState> {
     }
 
     catch(e) {
+      if (kDebugMode) {
+        print(e);
+      }
       emit(HomeError(msg: "Couldn't Communicate with Server"));
     }
   }
