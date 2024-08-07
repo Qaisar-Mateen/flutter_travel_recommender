@@ -47,14 +47,14 @@ class HomeCubit extends Cubit<HomeState> {
         final List<dynamic> popularJson = jsonDecode(response1.body);
         final List<dynamic> recommendedJson = jsonDecode(response2.body);
         final List<Map<String, dynamic>> popular = popularJson.map((item) => {
-            'ID': item['ID'],
+            'ID': item['ID'] as int,
             'Country': item['Country'] as String,
           }).toList();
 
         final List<Map<String, dynamic>> recommended = recommendedJson.map((item) => {
-          'ID': item['ID'],
-          'Country': item['Country'] as String}
-        ).toList();
+          'ID': item['ID'] as int,
+          'Country': item['Country'] as String,
+        }).toList();
 
         emit(HomeLoaded(popular: popular, recommended: recommended));
       }

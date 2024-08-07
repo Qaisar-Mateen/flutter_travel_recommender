@@ -28,6 +28,7 @@ def recommend():
         hr = PopularityRecommender()
         recommendations =  hr.recommend()
         recommendations = recommendations.sort_values(by='Popularity', ascending=False)
+        recommendations = recommendations.head(20)
         return recommendations.to_json(orient='records')
     
     elif userId is None:
