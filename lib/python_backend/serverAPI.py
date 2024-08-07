@@ -42,6 +42,24 @@ def recommend():
 
         recommendations = hr.recommend()
         return recommendations.to_json(orient='records')
+    
+@app.route("/recommend/cities", methods=["GET"])
+def getCities():
+    country = request.args.get("country")
+    if country is None:
+        return {'valid': False}, 400
+
+    cities = pd.read_csv('recommender/cities.csv')
+    cities = cities[cities['country'] == country][['city', 'lat', 'lng']]
+
+    if len(cities) > 4:
+        top_three = cities.iloc[:3]
+            
+        remaining = cities.iloc[3:]
+        remaining = remaining.sample(n=min(5, len(remaining)))
+        cities = pd.concat([top_three, remaining])
+        
+    return cities.to_json(orient='records') 
 
 if __name__ == "__main__":
     app.run(debug= True, host="0.0.0.0", port=5000)

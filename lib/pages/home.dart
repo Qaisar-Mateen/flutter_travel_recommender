@@ -102,12 +102,15 @@ class Home extends StatelessWidget {
                 );
               }
               else if (state is HomeError) {
-                return Center(child: Row(
-                  children: [
-                    const Icon(Icons.error_outline_outlined, color: Colors.red,),
-                    Text(state.msg),
-                  ],
-                ));
+                return Align(
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.error_outline_outlined, color: Colors.red,),
+                      Text(state.msg),
+                    ],
+                  ),
+                );
               }
               return Container();
             }

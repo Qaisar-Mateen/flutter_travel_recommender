@@ -62,7 +62,6 @@ class HomeCubit extends Cubit<HomeState> {
       else {
         emit(HomeError(msg: "Couldn't Fetch Data From Server"));
       }
-
     }
 
     catch(e) {

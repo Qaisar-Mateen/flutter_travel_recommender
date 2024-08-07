@@ -1,0 +1,43 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_recommender/settings_cubit.dart';
+
+abstract class DetailState {}
+
+class DetailLoading extends DetailState {}
+
+class DetailLoaded extends DetailState {
+  List<Map<String, dynamic>> cities;
+
+  DetailLoaded({required this.cities});
+}
+
+class DetailError extends DetailState {
+  String msg;
+
+  DetailError({required this.msg});
+}
+
+class DetailCubit extends Cubit<DetailState> {
+  final ServerCubit server;
+
+  DetailCubit(this.server) : super(DetailLoading());
+
+  loadData(String country) async {
+    try {
+      final response = await http.get(Uri.parse(
+        '''http://${server.state.ip}:${server.state.port}/recommend/cities?country=$country'''
+      ));
+
+      if(response.statusCode == 200){
+
+      } else {
+        emit(DetailError(msg: "Couldn't Fetch Data From Server"));  
+      }
+    }
+    catch (e) {
+      emit(DetailError(msg: "e"));
+    }
+  }
+}

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/pages/login.dart';
 import 'package:travel_recommender/settings_cubit.dart';
 import 'package:travel_recommender/home_cubit.dart';
+import 'package:travel_recommender/detail_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +12,8 @@ void main() {
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => ServerCubit()),
-        BlocProvider(create: (context) => HomeCubit(server: context.read<ServerCubit>()))
+        BlocProvider(create: (context) => HomeCubit(server: context.read<ServerCubit>())),
+        BlocProvider(create: (context) => DetailCubit(context.read<ServerCubit>()))
       ],
       child: const MyApp(),
     ),
