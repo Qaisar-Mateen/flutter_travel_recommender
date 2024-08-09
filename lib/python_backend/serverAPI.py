@@ -49,8 +49,8 @@ def getCities():
     if country is None:
         return {'valid': False}, 400
 
-    cities = pd.read_csv('recommender/cities.csv')
-    cities = cities[cities['country'] == country][['city', 'lat', 'lng']]
+    cities = pd.read_csv('recommender/world-cities.csv')
+    cities = cities[cities['country'] == country][['name', 'lat', 'lng']]
 
     if len(cities) > 4:
         top_three = cities.iloc[:3]
