@@ -3,19 +3,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/pages/settings.dart';
 import 'package:travel_recommender/detail_cubit.dart';
 
-class Detail extends StatelessWidget {
+class Detail extends StatefulWidget {
   final int countryId;
   final String name;
 
   const Detail({required this.countryId, required this.name, super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
+  _DetailState createState() => _DetailState();
+}
+
+class _DetailState extends State<Detail> {
+  int? _disabledButtonIndex;
+
+  @override
+  void initState() {
+    context.read<DetailCubit>().loadData(widget.name);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    context.read<DetailCubit>().loadData(name);
-    
+
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
+        title: Text(widget.name),
         centerTitle: true,
         actions: [
           IconButton(
@@ -29,15 +43,16 @@ class Detail extends StatelessWidget {
 
       body: Stack(
         children: [
+
           DraggableScrollableSheet(
             initialChildSize: 0.11,
             minChildSize: 0.11,
-            maxChildSize: 0.5,
+            maxChildSize: 0.48,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
                   boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
@@ -51,8 +66,7 @@ class Detail extends StatelessWidget {
                     if (state is DetailLoading) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is DetailLoaded) {
-                      return ListView(
-                        controller: scrollController,
+                      return Column(
                         children: [
                           Center(
                             child: Container(
@@ -65,37 +79,43 @@ class Detail extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16, bottom: 16, top: 8, right: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(name, style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold,)),
-                                const SizedBox(height: 8.0),
-                                const Text('Cities', style: TextStyle(fontSize: 18.0)),
-                                const SizedBox(height: 16.0),
 
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  padding: const EdgeInsets.all(8),
-                                  child: GridView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      crossAxisSpacing: 8.0,
-                                      mainAxisSpacing: 8.0,
-                                    ),
-                                    itemCount: state.cities.length,
-                                    itemBuilder: (context, index) {
-                                      return ElevatedButton(
-                                        onPressed: () {
-                                        },
-                                        child: Text(state.cities[index]['name']),
-                                      );
-                                    }
+                          Expanded(
+                            child: ListView(
+                              controller: scrollController,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(widget.name, style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold,)),
+                                      const SizedBox(height: 8.0),
+                                      const Text('Cities', style: TextStyle(fontSize: 18.0)),
+                                      const SizedBox(height: 8.0),
+                                  
+                                      Expanded(
+                                        child: Wrap(
+                                          direction: Axis.horizontal,
+                                          spacing: 20, // Horizontal spacing between buttons
+                                          runSpacing: 8, // Vertical spacing between buttons
+                                          children: List.generate(
+                                            state.cities.length, (index) {
+                                              return ElevatedButton(
+                                                onPressed: _disabledButtonIndex == index? null: () {
+                                                  setState(() {
+                                                    _disabledButtonIndex = index;
+                                                  });
+                                                },
+                                                child: Text(state.cities[index]['name']),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ]
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -112,7 +132,7 @@ class Detail extends StatelessWidget {
             },
           ),
         ],
-      ),
+      ),   
     );
   }
 }

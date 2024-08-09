@@ -37,13 +37,13 @@ ThemeData darkTheme = ThemeData(
     primary: Colors.grey.shade200,
     secondary: const Color.fromARGB(255, 45, 43, 43),
     inversePrimary: const Color.fromARGB(255, 78, 75, 75),
-    scrim: Colors.blue,
+    scrim: Colors.blue.shade800,
   ),
   applyElevationOverlayColor: true,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 5,
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blue.shade800,
     ),
   ),
   snackBarTheme: const SnackBarThemeData(
