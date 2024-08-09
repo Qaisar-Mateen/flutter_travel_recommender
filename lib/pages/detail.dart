@@ -94,7 +94,8 @@ class _DetailState extends State<Detail> {
                                       const Text('Cities', style: TextStyle(fontSize: 18.0)),
                                       const SizedBox(height: 8.0),
                                   
-                                      Expanded(
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width,
                                         child: Wrap(
                                           direction: Axis.horizontal,
                                           spacing: 20, // Horizontal spacing between buttons
