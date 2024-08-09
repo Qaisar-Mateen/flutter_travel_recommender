@@ -1,7 +1,8 @@
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_recommender/pages/settings.dart';
 import 'package:travel_recommender/detail_cubit.dart';
+import 'package:travel_recommender/pages/settings.dart';
 
 class Detail extends StatefulWidget {
   final int countryId;
@@ -64,7 +65,38 @@ class _DetailState extends State<Detail> {
                 child: BlocBuilder<DetailCubit, DetailState>(
                   builder: (context, state) {
                     if (state is DetailLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8.0),
+                              height: 5.0,
+                              width: 50.0,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Shimmer.fromColors(
+                                baseColor: Theme.of(context).colorScheme.inversePrimary,
+                                highlightColor: Theme.of(context).colorScheme.secondary,
+                                  child: Container(
+                                  width: 180,
+                                  height: 27,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
                     } else if (state is DetailLoaded) {
                       return Column(
                         children: [
@@ -96,6 +128,7 @@ class _DetailState extends State<Detail> {
                                   
                                       SizedBox(
                                         width: MediaQuery.of(context).size.width,
+                                        height: 130,
                                         child: Wrap(
                                           direction: Axis.horizontal,
                                           spacing: 20, // Horizontal spacing between buttons
