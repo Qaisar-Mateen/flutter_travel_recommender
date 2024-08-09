@@ -25,7 +25,7 @@ class LoginState extends State<Login> {
       try{
         final a = await http.get(Uri.parse('''http://${context.read<ServerCubit>().state.ip}:
           ${context.read<ServerCubit>().state.port}/login?userId=0''')
-        ).timeout(const Duration(seconds: 2));
+        ).timeout(const Duration(seconds: 1));
         if (kDebugMode) {
           print(a);
         }
