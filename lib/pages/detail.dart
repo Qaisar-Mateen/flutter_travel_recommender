@@ -30,15 +30,15 @@ class Detail extends StatelessWidget {
       body: Stack(
         children: [
           DraggableScrollableSheet(
-            initialChildSize: 0.1,
-            minChildSize: 0.1,
+            initialChildSize: 0.11,
+            minChildSize: 0.11,
             maxChildSize: 0.5,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
-                  boxShadow: [
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       blurRadius: 10.0,
@@ -66,25 +66,36 @@ class Detail extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.only(left: 16, bottom: 16, top: 8, right: 16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(name, style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold,)),
                                 const SizedBox(height: 8.0),
-                                const Text(
-                                  'Country ID:',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                ),
+                                const Text('Cities', style: TextStyle(fontSize: 18.0)),
                                 const SizedBox(height: 16.0),
-                                const Text(
-                                  'Additional information about the place can go here.',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
+
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: const EdgeInsets.all(8),
+                                  child: GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 8.0,
+                                      mainAxisSpacing: 8.0,
+                                    ),
+                                    itemCount: state.cities.length,
+                                    itemBuilder: (context, index) {
+                                      return ElevatedButton(
+                                        onPressed: () {
+                                        },
+                                        child: Text(state.cities[index]['name']),
+                                      );
+                                    }
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),
