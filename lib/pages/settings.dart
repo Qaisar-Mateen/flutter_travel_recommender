@@ -40,7 +40,7 @@ class Settings extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom:15, top:10, right: 23),
                               child: CupertinoSwitch(
-                                activeColor: Colors.blue,
+                                activeColor: Colors.blue.shade800,
                                 trackColor: const Color.fromARGB(255, 57, 192, 255),
                                 dragStartBehavior: DragStartBehavior.down,
                                 value: context.read<ThemeCubit>().isDark(),
@@ -60,14 +60,38 @@ class Settings extends StatelessWidget {
                 elevation: 10,
                 margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Padding(
-                  padding: const EdgeInsets.only(top:12, left: 20, right: 20, bottom: 15),
+                  padding: const EdgeInsets.only(top:12, left: 31, right: 31, bottom: 15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center, 
                     children: [
                       const Text("Server Settings", style: TextStyle(fontWeight: FontWeight.bold),),
+
+                      BlocBuilder<ThemeCubit, ThemeData>(
+                        builder: (context, toggleTheme) {
+                          return Row(mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Text("Local Server", style: TextStyle(fontSize: 16)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30),
+                              child: CupertinoSwitch(
+                                activeColor: Colors.blue.shade800,
+                                trackColor: const Color.fromARGB(255, 57, 192, 255),
+                                dragStartBehavior: DragStartBehavior.down,
+                                value: context.read<ThemeCubit>().isDark(),
+                               onChanged: (value) {
+                                context.read<ThemeCubit>().toggleTheme();
+                              }),
+                            )
+                          ]);
+                        }
+                      ),
           
                       Padding(
-                        padding: const EdgeInsets.only(top:30, bottom: 10),
+                        padding: const EdgeInsets.only(top:20, bottom: 10),
                         child: BlocBuilder<ServerCubit, ServerState>(
                           builder: (context, state) {
                             ipAddress.text = state.ip;

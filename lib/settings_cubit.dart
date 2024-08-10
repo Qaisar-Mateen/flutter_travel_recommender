@@ -98,6 +98,7 @@ class ServerState {
   String? _ip;
   String? _port;
   String? _timeout;
+  bool local = false;
   SharedPreferences? _pref;
 
   ServerState._internal({String? iP, String? porT, String? timeouT});
@@ -130,6 +131,10 @@ class ServerState {
   String get ip => (_ip != null)? _ip! : "192.168.1.5";
   String get port =>(_port != null)? _port! : "5000";
   String get timeout => (_timeout != null)? _timeout! : "5";
+
+  switchLocal() {
+    local = !local;
+  }
 
   bool _isValidIp(String? ip) {
     if (ip == null) return false;
