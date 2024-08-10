@@ -31,17 +31,23 @@ class HomeCubit extends Cubit<HomeState> {
   fetchData(int id) async {
     await Future.delayed(const Duration(seconds: 10));
     try{
-      final response1 = await http.get(
+      final response1 = server.state.local? await http.get(
         Uri.parse(
           '''http://${server.state.ip}:${server.state.port}/recommend?popular'''
         )
-      ).timeout(Duration(seconds: int.parse(server.state.timeout)));
+      ).timeout(Duration(seconds: int.parse(server.state.timeout))):
+      await http.get(Uri.parse(
+        'https://qaisarmateen.pythonanywhere.com/recommend?popular'
+      ));
 
-      final response2 = await http.get(
+      final response2 = server.state.local? await http.get(
         Uri.parse(
           '''http://${server.state.ip}:${server.state.port}/recommend?userId=$id'''
         )
-      ).timeout(Duration(seconds: int.parse(server.state.timeout)));
+      ).timeout(Duration(seconds: int.parse(server.state.timeout))):
+      await await http.get(Uri.parse(
+        'https://qaisarmateen.pythonanywhere.com/recommend?userId=$id'
+      ));
 
       if (response1.statusCode == 200 && response2.statusCode == 200) {
         final List<dynamic> popularJson = jsonDecode(response1.body);

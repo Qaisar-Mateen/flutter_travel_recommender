@@ -26,9 +26,14 @@ class DetailCubit extends Cubit<DetailState> {
 
   loadData(String country) async {
     try {
-      final response = await http.get(Uri.parse(
+      final response = await http.get(server.state.local?
+        Uri.parse(
         '''http://${server.state.ip}:${server.state.port}/recommend/cities?country=$country'''
-      ));
+        ):
+        Uri.parse(
+          '''https://qaisarmateen.pythonanywhere.com/recommend/cities?country=$country'''
+        )
+      );
 
       if(response.statusCode == 200){
         final List<dynamic> cityJson = jsonDecode(response.body);
