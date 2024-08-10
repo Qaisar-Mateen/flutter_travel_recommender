@@ -101,11 +101,18 @@ class ServerState {
   bool local = false;
   SharedPreferences? _pref;
 
-  ServerState._internal({String? iP, String? porT, String? timeouT});
+  ServerState._internal({String? iP, String? porT, String? timeouT, bool? locaL}) {
+    if (iP != null && porT != null && timeouT != null) {
+      ip = iP;
+      port = porT;
+      timeout = timeouT;
+      local = locaL!;
+    }
+  }
 
   //to wait for async function before emitting state
-  static Future<ServerState> create({String? iP, String? porT, String? timeouT}) async {
-    var state = ServerState._internal(iP: iP, porT: porT, timeouT: timeouT);
+  static Future<ServerState> create({String? iP, String? porT, String? timeouT, bool? locaL}) async {
+    var state = ServerState._internal(iP: iP, porT: porT, timeouT: timeouT, locaL: locaL);
     await state._loadPref();
     return state;
   }
@@ -119,6 +126,7 @@ class ServerState {
     ip = _pref!.getString('ip') ?? '192.168.1.9';
     port = _pref!.getString('port') ?? '5000';
     timeout = _pref!.getString('timeout') ?? '5';
+    local = _pref!.getBool('local') ?? false;
   }
 
   _updatePref() async {
@@ -126,15 +134,12 @@ class ServerState {
     _pref!.setString('ip', ip);
     _pref!.setString('port', port);
     _pref!.setString('timeout', timeout);
+    _pref!.setBool('local', local);
   }
 
   String get ip => (_ip != null)? _ip! : "192.168.1.5";
   String get port =>(_port != null)? _port! : "5000";
   String get timeout => (_timeout != null)? _timeout! : "5";
-
-  switchLocal() {
-    local = !local;
-  }
 
   bool _isValidIp(String? ip) {
     if (ip == null) return false;
@@ -154,6 +159,11 @@ class ServerState {
     } else {
       throw const FormatException("Invalid IP Format");
     }
+  }
+
+  setLocal (bool value) {
+    local = value;
+    _updatePref();
   }
 
   bool _isValidPort(String? port) {
@@ -195,5 +205,33 @@ class ServerCubit extends Cubit<ServerState> {
   Future<void> _initialize() async {
     final initialState = await ServerState.create();
     emit(initialState);
+  }
+
+  switchLocal() {
+    state.setLocal(!state.local);
+
+    emit(ServerState._internal(
+      iP: state.ip,
+      porT: state.port,
+      timeouT: state.timeout,
+      locaL: state.local
+    ));
+  }
+
+  updateText({String? ip, String? port, String? timeout}) {
+    if (ip != null) {
+      state.ip = ip;
+    } if (port != null) {
+      state.port = port;
+    } if (timeout != null) {
+      state.timeout = timeout;
+    }
+
+    emit(ServerState._internal(
+      iP: state.ip,
+      porT: state.port,
+      timeouT: state.timeout,
+      locaL: state.local
+    ));
   }
 }

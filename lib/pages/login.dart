@@ -41,7 +41,9 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    first(context);
+    if (firstTime && context.read<ServerCubit>().state.local) {
+      first(context);
+    }
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: IconButton(
@@ -87,14 +89,16 @@ class LoginState extends State<Login> {
                             if (id.isNotEmpty) {
                               setState(() {isFetching = true;});
                               try {
-                                final response = await http.get(Uri.parse(
+                                final response = context.read<ServerCubit>().state.local? await http.get(Uri.parse(
+                                       '''http://${context.read<ServerCubit>().state.ip}:
+                                       ${context.read<ServerCubit>().state.port}/login?userId=$id'''))
+                                   .timeout(Duration(seconds: int.parse(context.read<ServerCubit>().state.timeout))):
+                                   
+                                    await http.get(Uri.parse(
                                     '''https://qaisarmateen.pythonanywhere.com/login?userId=$id'''
-                                  )
-                                ).timeout(Duration(seconds:int.parse(context.read<ServerCubit>().state.timeout)));
-                                //final response = await http.get(Uri.parse(
-                                //        '''http://${context.read<ServerCubit>().state.ip}:
-                                //        ${context.read<ServerCubit>().state.port}/login?userId=$id'''))
-                                //    .timeout(Duration(seconds: int.parse(context.read<ServerCubit>().state.timeout)));
+                                    )
+                                  ).timeout(Duration(seconds:int.parse(context.read<ServerCubit>().state.timeout)));
+
                                 if (response.statusCode == 200) {
                                   if (mounted) {
                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(id: int.parse(id))));

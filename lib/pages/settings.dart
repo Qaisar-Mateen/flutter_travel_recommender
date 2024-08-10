@@ -66,8 +66,8 @@ class Settings extends StatelessWidget {
                     children: [
                       const Text("Server Settings", style: TextStyle(fontWeight: FontWeight.bold),),
 
-                      BlocBuilder<ThemeCubit, ThemeData>(
-                        builder: (context, toggleTheme) {
+                      BlocBuilder<ServerCubit, ServerState>(
+                        builder: (context, state) {
                           return Row(mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -81,9 +81,9 @@ class Settings extends StatelessWidget {
                                 activeColor: Colors.blue.shade800,
                                 trackColor: const Color.fromARGB(255, 57, 192, 255),
                                 dragStartBehavior: DragStartBehavior.down,
-                                value: context.read<ThemeCubit>().isDark(),
+                                value: context.read<ServerCubit>().state.local,
                                onChanged: (value) {
-                                context.read<ThemeCubit>().toggleTheme();
+                                context.read<ServerCubit>().switchLocal();
                               }),
                             )
                           ]);
@@ -96,6 +96,7 @@ class Settings extends StatelessWidget {
                           builder: (context, state) {
                             ipAddress.text = state.ip;
                             return TextField(
+                              enabled: state.local,
                               controller: ipAddress,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -103,7 +104,7 @@ class Settings extends StatelessWidget {
                               ),
                               onSubmitted: (value) {
                                 try {
-                                  state.ip = value;
+                                  context.read<ServerCubit>().updateText(ip: value);
                                 }
                                 catch(e) {
                                   ipAddress.text = state.ip;
@@ -123,6 +124,7 @@ class Settings extends StatelessWidget {
                           builder: (context, state) {
                             port.text = state.port;
                             return TextField(
+                              enabled: state.local,
                               controller: port,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -131,7 +133,7 @@ class Settings extends StatelessWidget {
                               keyboardType: TextInputType.number,
                               onSubmitted: (value) {
                                 try {
-                                  state.port = value;
+                                  context.read<ServerCubit>().updateText(port: value);
                                 }
                                 catch (e) {
                                   port.text = state.port;
@@ -161,7 +163,7 @@ class Settings extends StatelessWidget {
                               keyboardType: TextInputType.number,
                               onSubmitted: (value) {
                                 try {
-                                  state.timeout = value;
+                                  context.read<ServerCubit>().updateText(timeout: value);
                                 }
                                 catch (e) {
                                   timeout.text = state.timeout;
