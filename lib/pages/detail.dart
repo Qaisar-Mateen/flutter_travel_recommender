@@ -31,7 +31,10 @@ class _DetailState extends State<Detail> {
 
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Text(widget.name),
         centerTitle: true,
         actions: [
@@ -125,7 +128,7 @@ class _DetailState extends State<Detail> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(widget.name, style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold,)),
-                                      const SizedBox(height: 8.0),
+                                      const SizedBox(height: 9.0),
                                       const Text('Cities', style: TextStyle(fontSize: 18.0)),
                                       const SizedBox(height: 8.0),
                                   
@@ -178,10 +181,7 @@ Widget mapWidget() {
   return FlutterMap(
     options: const MapOptions(
       initialCenter: LatLng(33.738045, 73.084488),
-      initialZoom: 10,
-      // interactionOptions: InteractionOptions(
-      //   flags: InteractiveFlag.doubleTapZoom,
-      // )
+      initialZoom: 6,
     ),
     children: [
       mapTileLayer,
