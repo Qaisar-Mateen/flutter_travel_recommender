@@ -54,7 +54,7 @@ class _DetailState extends State<Detail> {
           DraggableScrollableSheet(
             initialChildSize: 0.11,
             minChildSize: 0.11,
-            maxChildSize: 0.55,
+            maxChildSize: 0.46,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
                 decoration: BoxDecoration(
