@@ -48,7 +48,7 @@ class _DetailState extends State<Detail> {
           DraggableScrollableSheet(
             initialChildSize: 0.11,
             minChildSize: 0.11,
-            maxChildSize: 0.48,
+            maxChildSize: 0.55,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
                 decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class _DetailState extends State<Detail> {
                                 baseColor: Theme.of(context).colorScheme.inversePrimary,
                                 highlightColor: Theme.of(context).colorScheme.secondary,
                                   child: Container(
-                                  width: 180,
+                                  width: 153,
                                   height: 27,
                                   color: Colors.white,
                                 ),
@@ -128,7 +128,7 @@ class _DetailState extends State<Detail> {
                                   
                                       SizedBox(
                                         width: MediaQuery.of(context).size.width,
-                                        height: 130,
+                                        //height: MediaQuery.of(context).size.height*48,
                                         child: Wrap(
                                           direction: Axis.horizontal,
                                           spacing: 20, // Horizontal spacing between buttons
