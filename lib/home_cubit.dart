@@ -45,7 +45,7 @@ class HomeCubit extends Cubit<HomeState> {
           '''http://${server.state.ip}:${server.state.port}/recommend?userId=$id'''
         )
       ).timeout(Duration(seconds: int.parse(server.state.timeout))):
-      await await http.get(Uri.parse(
+      await http.get(Uri.parse(
         'https://qaisarmateen.pythonanywhere.com/recommend?userId=$id'
       ));
 
