@@ -1,5 +1,7 @@
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/detail_cubit.dart';
 import 'package:travel_recommender/pages/settings.dart';
@@ -44,6 +46,7 @@ class _DetailState extends State<Detail> {
 
       body: Stack(
         children: [
+          mapWidget(),
 
           DraggableScrollableSheet(
             initialChildSize: 0.11,
@@ -170,3 +173,26 @@ class _DetailState extends State<Detail> {
     );
   }
 }
+
+Widget mapWidget() {
+  return FlutterMap(
+    options: const MapOptions(
+      initialCenter: LatLng(33.738045, 73.084488),
+      initialZoom: 10,
+      // interactionOptions: InteractionOptions(
+      //   flags: InteractiveFlag.doubleTapZoom,
+      // )
+    ),
+    children: [
+      mapTileLayer,
+    ],
+  );
+}
+
+TileLayer get mapTileLayer => TileLayer(
+  urlTemplate: google,
+  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+);
+
+String openstreet = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+String google = "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga";
