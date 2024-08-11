@@ -120,6 +120,7 @@ class _DetailState extends State<Detail> {
 
                           Expanded(
                             child: ListView(
+                              shrinkWrap: true,
                               controller: scrollController,
                               children: [
                                 Padding(
