@@ -150,7 +150,6 @@ class _DetailState extends State<Detail> {
                               
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width,
-                                    //height: MediaQuery.of(context).size.height*48,
                                     child: Wrap(
                                       direction: Axis.horizontal,
                                       spacing: 20, // Horizontal spacing between buttons
@@ -190,11 +189,29 @@ class _DetailState extends State<Detail> {
     );
   }
 
+  Widget processMarkers() {
+    return BlocBuilder<DetailCubit, DetailState>(
+      builder: (context, state) {   
+        if (state is DetailLoaded) {
+          
+        }
+        return Container();
+      }
+    );
+  }
+
   Widget mapWidget() {
     return FlutterMap(
-      options: const MapOptions(
-        initialCenter: LatLng(33.738045, 73.084488),
+      options: MapOptions(
+        initialCenter: const LatLng(33.738045, 73.084488),
         initialZoom: 6,
+        maxZoom: 2,
+        cameraConstraint: CameraConstraint.contain(
+          bounds: LatLngBounds(
+            const LatLng(33.0, 72.0), 
+            const LatLng(34.0, 74.0),
+          ),
+        ),
       ),
       children: [
         BlocBuilder<ServerCubit,ServerState>(
@@ -205,6 +222,8 @@ class _DetailState extends State<Detail> {
             );
           }
         ),
+
+        processMarkers(),
       ],
     );
   }
