@@ -72,11 +72,12 @@ class Settings extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                             const Padding(
-                              padding: EdgeInsets.only(top: 30),
+                              padding: EdgeInsets.only(top: 20),
                               child: Text("Local Server", style: TextStyle(fontSize: 16)),
                             ),
+
                             Padding(
-                              padding: const EdgeInsets.only(top: 30),
+                              padding: const EdgeInsets.only(top: 20),
                               child: CupertinoSwitch(
                                 activeColor: Colors.blue.shade800,
                                 trackColor: const Color.fromARGB(255, 57, 192, 255),
@@ -150,7 +151,7 @@ class Settings extends StatelessWidget {
                       ),
           
                       Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
                         child: BlocBuilder<ServerCubit, ServerState>(
                           builder: (context, state) {
                             timeout.text = state.timeout;
@@ -177,6 +178,46 @@ class Settings extends StatelessWidget {
                             );
                           }
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              Card(
+                elevation: 10,
+                margin: const EdgeInsets.fromLTRB(20, 15, 20, 10),
+                child: Padding(
+                  padding: const EdgeInsets.only(top:12, left: 31, right: 31, bottom: 15),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Map Settings", style: TextStyle(fontWeight: FontWeight.bold),),
+                      BlocBuilder<ServerCubit, ServerState>(
+                        builder: (context, state) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top:20, bottom: 10),
+                            child: DropdownButtonFormField<String>(
+                              value: state.tileServer, 
+                              onChanged:(String? value) {
+                                if(value != null) {
+                                  context.read<ServerCubit>().updateMapTile(value);
+                                }
+                              },
+                              items: [
+                                "Google's Default", "Google's Satellite", "OpenStreet's Default"
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Map's Tile Server",
+                              ),
+                            ),
+                          );
+                        }
                       ),
                     ],
                   ),

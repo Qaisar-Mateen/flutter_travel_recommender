@@ -27,6 +27,16 @@ ThemeData lightTheme = ThemeData(
     elevation: 10,
     shape: StadiumBorder(),
   ),
+
+  dropdownMenuTheme: DropdownMenuThemeData(
+    menuStyle: MenuStyle(
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    ),
+  ),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -54,6 +64,16 @@ ThemeData darkTheme = ThemeData(
     behavior: SnackBarBehavior.floating,
     elevation: 10,
     shape: StadiumBorder(),
+  ),
+  
+  dropdownMenuTheme: DropdownMenuThemeData(
+    menuStyle: MenuStyle(
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    ),
   ),
 );
 
@@ -100,6 +120,7 @@ class ServerState {
   String? _timeout;
   bool local = false;
   SharedPreferences? _pref;
+  String tileServer = "Google's Default";
 
   ServerState._internal({String? iP, String? porT, String? timeouT, bool? locaL}) {
     if (iP != null && porT != null && timeouT != null) {
@@ -127,6 +148,7 @@ class ServerState {
     port = _pref!.getString('port') ?? '5000';
     timeout = _pref!.getString('timeout') ?? '5';
     local = _pref!.getBool('local') ?? false;
+    tileServer = _pref!.getString('tile') ?? "Google's Default";
   }
 
   _updatePref() async {
@@ -135,6 +157,11 @@ class ServerState {
     _pref!.setString('port', port);
     _pref!.setString('timeout', timeout);
     _pref!.setBool('local', local);
+  }
+
+  _updateTile() async {
+    await _initPref();
+    _pref!.setString("tile", tileServer);
   }
 
   String get ip => (_ip != null)? _ip! : "192.168.1.5";
@@ -216,6 +243,19 @@ class ServerCubit extends Cubit<ServerState> {
       timeouT: state.timeout,
       locaL: state.local
     ));
+  }
+
+  updateMapTile(String value) {
+    state.tileServer;
+    state._updateTile();
+
+    emit(ServerState._internal(
+      iP: state.ip,
+      porT: state.port,
+      timeouT: state.timeout,
+      locaL: state.local
+    )..tileServer = state.tileServer 
+    );
   }
 
   updateText({String? ip, String? port, String? timeout}) {

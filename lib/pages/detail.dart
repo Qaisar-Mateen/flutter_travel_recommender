@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_recommender/detail_cubit.dart';
 import 'package:travel_recommender/pages/settings.dart';
+import 'package:travel_recommender/settings_cubit.dart';
 
 class Detail extends StatefulWidget {
   final int countryId;
@@ -29,7 +30,6 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -52,8 +52,8 @@ class _DetailState extends State<Detail> {
           mapWidget(),
 
           DraggableScrollableSheet(
-            initialChildSize: 0.11,
-            minChildSize: 0.11,
+            initialChildSize: 0.09,
+            minChildSize: 0.09,
             maxChildSize: 0.46,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
@@ -104,63 +104,58 @@ class _DetailState extends State<Detail> {
                         ],
                       );
                     } else if (state is DetailLoaded) {
-                      return Column(
-                        children: [
-                          Center(
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 8.0),
-                              height: 5.0,
-                              width: 50.0,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(10.0),
+                      return SingleChildScrollView(
+                        controller: scrollController,
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                                height: 5.0,
+                                width: 50.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
                               ),
                             ),
-                          ),
-
-                          Expanded(
-                            child: ListView(
-                              shrinkWrap: true,
-                              controller: scrollController,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(widget.name, style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold,)),
-                                      const SizedBox(height: 9.0),
-                                      const Text('Cities', style: TextStyle(fontSize: 18.0)),
-                                      const SizedBox(height: 8.0),
-                                  
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width,
-                                        //height: MediaQuery.of(context).size.height*48,
-                                        child: Wrap(
-                                          direction: Axis.horizontal,
-                                          spacing: 20, // Horizontal spacing between buttons
-                                          runSpacing: 8, // Vertical spacing between buttons
-                                          children: List.generate(
-                                            state.cities.length, (index) {
-                                              return ElevatedButton(
-                                                onPressed: _disabledButtonIndex == index? null: () {
-                                                  setState(() {
-                                                    _disabledButtonIndex = index;
-                                                  });
-                                                },
-                                                child: Text(state.cities[index]['name']),
-                                              );
+                        
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(widget.name, style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold,)),
+                                  const SizedBox(height: 10.0),
+                                  const Text('Cities', style: TextStyle(fontSize: 18.0)),
+                                  const SizedBox(height: 8.0),
+                              
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    //height: MediaQuery.of(context).size.height*48,
+                                    child: Wrap(
+                                      direction: Axis.horizontal,
+                                      spacing: 20, // Horizontal spacing between buttons
+                                      runSpacing: 8, // Vertical spacing between buttons
+                                      children: List.generate(
+                                        state.cities.length, (index) {
+                                          return ElevatedButton(
+                                            onPressed: _disabledButtonIndex == index? null: () {
+                                              setState(() {
+                                                _disabledButtonIndex = index;
+                                              });
                                             },
-                                          ),
-                                        ),
+                                            child: Text(state.cities[index]['name']),
+                                          );
+                                        },
                                       ),
-                                    ]
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ]
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     } else if (state is DetailError) {
                       return Center(child: Text(state.msg));
@@ -176,24 +171,25 @@ class _DetailState extends State<Detail> {
       ),   
     );
   }
+
+  Widget mapWidget() {
+    return FlutterMap(
+      options: const MapOptions(
+        initialCenter: LatLng(33.738045, 73.084488),
+        initialZoom: 6,
+      ),
+      children: [
+        TileLayer(
+          urlTemplate: Tiles[context.read<ServerCubit>().state.tileServer],
+          userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+        ),
+      ],
+    );
+  }
+
+  final Map<String,String> Tiles = {
+    "OpenStreet's Default" : "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "Google's Default" : "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga",
+    "Google's Satellite" : "https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga",
+  };
 }
-
-Widget mapWidget() {
-  return FlutterMap(
-    options: const MapOptions(
-      initialCenter: LatLng(33.738045, 73.084488),
-      initialZoom: 6,
-    ),
-    children: [
-      mapTileLayer,
-    ],
-  );
-}
-
-TileLayer get mapTileLayer => TileLayer(
-  urlTemplate: google,
-  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-);
-
-String openstreet = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
-String google = "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga";
