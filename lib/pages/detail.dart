@@ -22,6 +22,7 @@ class Detail extends StatefulWidget {
 class _DetailState extends State<Detail> {
   int? _disabledButtonIndex;
   late final MapController _mapController;
+  bool _markersProcessed = false;
 
   @override
   void initState() {
@@ -164,6 +165,9 @@ class _DetailState extends State<Detail> {
                                               setState(() {
                                                 _disabledButtonIndex = index;
                                               });
+                                                // Move the map to the selected city's location
+                                              LatLng cityLocation = LatLng(state.cities[index]['lat'], state.cities[index]['long']);
+                                              _mapController.move(cityLocation, 10);
                                             },
                                             child: Text(state.cities[index]['name']),
                                           );
@@ -198,6 +202,7 @@ class _DetailState extends State<Detail> {
       if (state is DetailLoaded) {
         List<Marker> markers = state.cities.map((city) {
           return Marker(
+            rotate: true,
             height: 80,
             width: 100,
             point: LatLng(city['lat'], city['long']),
@@ -210,36 +215,37 @@ class _DetailState extends State<Detail> {
           );
         }).toList();
 
-        // Calculate bounds
-        List<LatLng> list = [];
-        for (var marker in markers) {
-          list.add(marker.point);
-        }
-        LatLngBounds bounds = LatLngBounds.fromPoints(list);
-
-          // Calculate center point
-        LatLng center = LatLng(
-          (bounds.north + bounds.south) / 2,
-          (bounds.east + bounds.west) / 2,
-        );
-
-          // Calculate zoom level
-        double zoom = _mapController.camera.zoom;
-        while (zoom > 0) {
-          var sw = _mapController.camera.project(bounds.southWest, zoom);
-          var ne = _mapController.camera.project(bounds.northEast, zoom);
-          var size = ne - sw;
-          if (size.x <= _mapController.camera.size.x && size.y <= _mapController.camera.size.y) {
-           break;
+        if (!_markersProcessed) {
+          _markersProcessed = true;
+          List<LatLng> list = [];
+          for (var marker in markers) {
+            list.add(marker.point);
           }
-          zoom--;
-        }
+          LatLngBounds bounds = LatLngBounds.fromPoints(list);
 
-          // Move the map to fit the bounds
+            // Calculate center point
+          LatLng center = LatLng(
+            (bounds.north + bounds.south) / 2,
+            (bounds.east + bounds.west) / 2,
+          );
+
+            // Calculate zoom level
+          double zoom = _mapController.camera.zoom;
+          while (zoom > 0) {
+            var sw = _mapController.camera.project(bounds.southWest, zoom);
+            var ne = _mapController.camera.project(bounds.northEast, zoom);
+            var size = ne - sw;
+            if (size.x <= _mapController.camera.size.x && size.y <= _mapController.camera.size.y) {
+             break;
+            }
+            zoom--;
+          }
+
+            // Move the map to fit the bounds
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _mapController.move(center, zoom);
           });
-
+        }
           return MarkerLayer(
             markers: markers,
           );
