@@ -21,11 +21,12 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   int? _disabledButtonIndex;
-  final _mapController = MapController();
+  late final MapController _mapController;
 
   @override
   void initState() {
     context.read<DetailCubit>().loadData(widget.name);
+    _mapController = MapController();
     super.initState();
   }
 
