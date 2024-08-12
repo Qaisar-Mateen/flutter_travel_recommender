@@ -10,7 +10,18 @@ class DetailLoading extends DetailState {}
 class DetailLoaded extends DetailState {
   List<Map<String, dynamic>> cities;
 
-  DetailLoaded({required this.cities});
+  DetailLoaded({required this.cities}) {
+    checkAndFixNulls();
+  }
+
+  checkAndFixNulls() async {
+    for(int i = 0; i<cities.length; i++) {
+      if (cities[i]['lat'] == null || cities[i]['long'] == null) {
+        
+      }
+    }
+    
+  }
 }
 
 class DetailError extends DetailState {
@@ -25,6 +36,7 @@ class DetailCubit extends Cubit<DetailState> {
   DetailCubit(this.server) : super(DetailLoading());
 
   loadData(String country) async {
+    emit(DetailLoading());
     try {
       final response = await http.get(server.state.local?
         Uri.parse(
@@ -39,7 +51,7 @@ class DetailCubit extends Cubit<DetailState> {
         final List<dynamic> cityJson = jsonDecode(response.body);
 
         final List<Map<String, dynamic>> city = cityJson.map((item) => {
-          'name': item['name'], 'latitude': item['lat'], 'longitude': item['lng']
+          'name': item['name'], 'lat': item['lat'], 'long': item['lng']
         }).toList();
 
         emit(DetailLoaded(cities: city));
@@ -48,7 +60,7 @@ class DetailCubit extends Cubit<DetailState> {
       }
     }
     catch (e) {
-      emit(DetailError(msg: "e"));
+      emit(DetailError(msg: "$e"));
     }
   }
 }

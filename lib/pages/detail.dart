@@ -10,6 +10,7 @@ import 'package:travel_recommender/settings_cubit.dart';
 class Detail extends StatefulWidget {
   final int countryId;
   final String name;
+  
 
   const Detail({required this.countryId, required this.name, super.key});
 
@@ -20,6 +21,7 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   int? _disabledButtonIndex;
+  final _mapController = MapController();
 
   @override
   void initState() {
@@ -191,9 +193,55 @@ class _DetailState extends State<Detail> {
 
   Widget processMarkers() {
     return BlocBuilder<DetailCubit, DetailState>(
-      builder: (context, state) {   
-        if (state is DetailLoaded) {
-          
+    builder: (context, state) {   
+      if (state is DetailLoaded) {
+        List<Marker> markers = state.cities.map((city) {
+          return Marker(
+            height: 80,
+            width: 100,
+            point: LatLng(city['lat'], city['long']),
+            child: Column(
+              children: [
+                const Icon(Icons.location_on, color: Colors.red,),
+                Text(city['name'], maxLines: 2,),
+              ],
+            ),
+          );
+        }).toList();
+
+        // Calculate bounds
+        List<LatLng> list = [];
+        for (var marker in markers) {
+          list.add(marker.point);
+        }
+        LatLngBounds bounds = LatLngBounds.fromPoints(list);
+
+          // Calculate center point
+        LatLng center = LatLng(
+          (bounds.north + bounds.south) / 2,
+          (bounds.east + bounds.west) / 2,
+        );
+
+          // Calculate zoom level
+        double zoom = _mapController.camera.zoom;
+        while (zoom > 0) {
+          var sw = _mapController.camera.project(bounds.southWest, zoom);
+          var ne = _mapController.camera.project(bounds.northEast, zoom);
+          var size = ne - sw;
+          if (size.x <= _mapController.camera.size.x && size.y <= _mapController.camera.size.y) {
+           break;
+          }
+          zoom--;
+        }
+
+          // Move the map to fit the bounds
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _mapController.move(center, zoom);
+          });
+
+          return MarkerLayer(
+            markers: markers,
+          );
         }
         return Container();
       }
@@ -202,16 +250,10 @@ class _DetailState extends State<Detail> {
 
   Widget mapWidget() {
     return FlutterMap(
-      options: MapOptions(
-        initialCenter: const LatLng(33.738045, 73.084488),
+      mapController: _mapController,
+      options: const MapOptions(
+        initialCenter: LatLng(33.738045, 73.084488),
         initialZoom: 6,
-        maxZoom: 2,
-        cameraConstraint: CameraConstraint.contain(
-          bounds: LatLngBounds(
-            const LatLng(33.0, 72.0), 
-            const LatLng(34.0, 74.0),
-          ),
-        ),
       ),
       children: [
         BlocBuilder<ServerCubit,ServerState>(
