@@ -34,16 +34,34 @@ class _DetailState extends State<Detail> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(widget.name),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
+        leading: Container(
+          margin: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            shape: BoxShape.circle,
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+              Navigator.of(context).pop();
             },
           ),
+        ),
+        backgroundColor: Colors.transparent,
+        actions: [
+          Container(
+            margin: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+              },
+            ),
+          )
         ],
       ),
 
@@ -59,7 +77,7 @@ class _DetailState extends State<Detail> {
               return Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(26.0)),
                   boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
