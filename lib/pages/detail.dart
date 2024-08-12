@@ -179,15 +179,19 @@ class _DetailState extends State<Detail> {
         initialZoom: 6,
       ),
       children: [
-        TileLayer(
-          urlTemplate: Tiles[context.read<ServerCubit>().state.tileServer],
-          userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+        BlocBuilder<ServerCubit,ServerState>(
+          builder: (context, state) {
+            return TileLayer(
+              urlTemplate: tiles[state.tileServer],
+              userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+            );
+          }
         ),
       ],
     );
   }
 
-  final Map<String,String> Tiles = {
+  final Map<String,String> tiles = {
     "OpenStreet's Default" : "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     "Google's Default" : "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga",
     "Google's Satellite" : "https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga",

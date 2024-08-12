@@ -246,7 +246,7 @@ class ServerCubit extends Cubit<ServerState> {
   }
 
   updateMapTile(String value) {
-    state.tileServer;
+    state.tileServer = value;
     state._updateTile();
 
     emit(ServerState._internal(
