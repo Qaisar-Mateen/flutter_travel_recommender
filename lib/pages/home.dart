@@ -89,7 +89,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    PopularDestinationSection(popular: state.popular),
+                    PopularDestinationSection(popular: state.popular, images: state.images,),
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
@@ -97,7 +97,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    ForYouSection(recommend: state.recommended),
+                    ForYouSection(recommend: state.recommended, images: state.images,),
                   ],
                 );
               }
@@ -123,8 +123,9 @@ class Home extends StatelessWidget {
 
 class PopularDestinationSection extends StatelessWidget {
   final List<Map<String, dynamic>> popular;
+  final Map<String, Image> images;
 
-  const PopularDestinationSection({required this.popular, super.key});
+  const PopularDestinationSection({required this.popular, required this.images, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -166,13 +167,7 @@ class PopularDestinationSection extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              "https://flagcdn.com/w320/${popular[index]['Country Code'].toLowerCase()}.png",
-                              //'https://via.placeholder.com/150',
-                              height: 100,
-                              width: 150,
-                              fit: BoxFit.cover,
-                            ),
+                            child: images[popular[index]['Country']],
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 16.5, left: 5, right: 5),
@@ -194,8 +189,9 @@ class PopularDestinationSection extends StatelessWidget {
 
 class ForYouSection extends StatelessWidget {
   final List<Map<String, dynamic>> recommend;
+  final Map<String, Image> images;
 
-  const ForYouSection({required this.recommend, super.key});
+  const ForYouSection({required this.recommend, required this.images, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +214,7 @@ class ForYouSection extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: 
+                      child: images[recommend[index]['Country']],
                     ),
                   ),
             

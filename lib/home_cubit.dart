@@ -13,8 +13,9 @@ class HomeLoading extends HomeState {}
 class HomeLoaded extends HomeState {
   List<Map<String, dynamic>> popular;
   List<Map<String, dynamic>> recommended;
+  Map<String, Image> images;
 
-  HomeLoaded({required this.popular, required this.recommended});
+  HomeLoaded({required this.popular, required this.recommended, required this.images});
 }
 
 class HomeError extends HomeState {
@@ -86,7 +87,7 @@ class HomeCubit extends Cubit<HomeState> {
           }
         }
 
-        emit(HomeLoaded(popular: popular, recommended: recommended));
+        emit(HomeLoaded(popular: popular, recommended: recommended, images: countryFlags));
       }
 
       else {
