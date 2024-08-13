@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:latlong2/latlong.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,11 @@ class DetailLoaded extends DetailState {
   List<Map<String, dynamic>> cities;
   List<Map<String, dynamic>> places = [];
 
-  DetailLoaded({required this.cities});
+  DetailLoaded({required this.cities, List<Map<String, dynamic>>? place}) {
+    if (place != null) {
+      places = place;
+    }
+  }
 }
 
 class DetailError extends DetailState {
@@ -27,24 +32,7 @@ class DetailCubit extends Cubit<DetailState> {
   DetailCubit(this.server) : super(DetailLoading());
 
   updatePlaces(double lat, double long) async {
-//     def get_places(geo_id, lat, lon, place=True):
-//     ID_url = f"https://api.geoapify.com/v1/geocode/reverse?lat={lat}&lon={lon}&format=json&apiKey=d76f029b27e04a9cb47a5356a7bf2a87"
-    
-//     if place:
-//         response = requests.get(ID_url)
-//         id = response.json()
-//         id = id['results'][0]['place_id']
-//         print(id)
-//         url = f"https://api.geoapify.com/v2/places?categories=accommodation.hotel,accommodation.hut,activity,sport,heritage,ski,tourism,leisure,natural,rental.bicycle,rental.ski,entertainment&conditions=named&filter=place:{id}&limit=10&apiKey=d76f029b27e04a9cb47a5356a7bf2a87"
-//         result = requests.get(url)
-    
-//     else:
-//         iso = get_iso(lat, lon)
-//         iso_id = iso['properties']['id']
-//         url = f"https://api.geoapify.com/v2/places?categories=accommodation.hotel,accommodation.hut,activity,sport,heritage,ski,tourism,leisure,natural,rental.bicycle,rental.ski,entertainment&conditions=named&filter=geometry:{iso_id}&limit=10&apiKey=d76f029b27e04a9cb47a5356a7bf2a87"
-//         result = requests.get(url)
-    
-//     return result.json()
+    if (state is! DetailLoaded) return;
 
     final url1 = "https://api.geoapify.com/v1/isoline?lat=$lat&lon=$long&type=time&mode=drive&range=900&apiKey=d76f029b27e04a9cb47a5356a7bf2a87";
     try {
@@ -58,17 +46,29 @@ class DetailCubit extends Cubit<DetailState> {
         final response1 = await http.get(Uri.parse(url2));
 
         if (response1.statusCode == 200) {
-          
+          final jsonPlaces = jsonDecode(response1.body);
+         
+          List<Map<String,dynamic>> placesList = [];
+
+          for (var place in jsonPlaces['features']) {
+            final name = place['properties']['name']?? 'unknown';
+            final lat = place['geometry']['coordinates'][1];
+            final long = place['geometry']['coordinates'][0];
+            placesList.add({
+              'name': name,
+              'latlng': LatLng(lat, long),
+            });
+          }
+          final currentState = state as DetailLoaded;
+          emit(DetailLoaded(cities: currentState.cities, place: placesList));
         } else {
           if (kDebugMode) {
-            print("ERROR:Places API CALL FAIL");
+            print("ERROR: Places API CALL FAIL");
           }
         }
-
-        emit(state);
       } else {
         if (kDebugMode) {
-          print("ERROR:ISO API CALL FAIL");
+          print("ERROR: ISOLINE API CALL FAIL");
         }
       }
     }
