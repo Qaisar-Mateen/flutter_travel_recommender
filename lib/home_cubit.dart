@@ -31,7 +31,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit({required this.server}) : super(HomeLoading());
 
   fetchData(int id) async {
-    emit(HomeLoading());
+    //emit(HomeLoading());
     try{
       final response1 = server.state.local? await http.get(
         Uri.parse(
