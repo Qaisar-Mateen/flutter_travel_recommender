@@ -31,7 +31,6 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit({required this.server}) : super(HomeLoading());
 
   fetchData(int id) async {
-    //await Future.delayed(const Duration(seconds: 10));
     emit(HomeLoading());
     try{
       final response1 = server.state.local? await http.get(
@@ -81,11 +80,8 @@ class HomeCubit extends Cubit<HomeState> {
               if (flagResponse.statusCode == 200) {
                 
                 final responseData = json.decode(flagResponse.body);
-                final flagImageUrl = responseData[0]['flags']['png'];
-                print("SUCCESS url ${responseData[0]['flags']['png']} \n ${flagResponse.body}");
-                countryFlags[countryName] = Image.network(flagImageUrl, height: 100, width: 150, fit: BoxFit.cover);
+                countryFlags[countryName] = Image.network(responseData[0]['flags']['png'], height: 100, width: 150, fit: BoxFit.cover);
               } else {
-                print("FAIL url $flagUrl \n ${flagResponse.body}");
                 countryFlags[countryName] = Image.network('https://via.placeholder.com/150',height:100,width:150,fit:BoxFit.cover);
               }
             } else {
