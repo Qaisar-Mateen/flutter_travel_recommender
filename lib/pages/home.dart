@@ -167,7 +167,7 @@ class PopularDestinationSection extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image.network(
-                              "https://flagcdn.com/w320/${popular[index]['Country'].toLowerCase()}.png",
+                              "https://flagcdn.com/w320/${popular[index]['Country Code'].toLowerCase()}.png",
                               //'https://via.placeholder.com/150',
                               height: 100,
                               width: 150,
@@ -218,13 +218,7 @@ class ForYouSection extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        "https://flagcdn.com/w320/${recommend[index]['Country'].toLowerCase()}.png",
-                        //'https://via.placeholder.com/150',
-                        height: 100,
-                        width: 150,
-                        fit: BoxFit.cover,
-                      ),
+                      child: 
                     ),
                   ),
             
