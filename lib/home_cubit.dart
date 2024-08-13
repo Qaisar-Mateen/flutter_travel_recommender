@@ -68,25 +68,32 @@ class HomeCubit extends Cubit<HomeState> {
         }).toList();
 
         final Map<String, Image> countryFlags = {};
+        final List<Future<void>> future = [];
 
         for (var item in recommended) {
-          final countryCode = item['Code'];
-          final countryName = item['Country'];
+          future.add(() async { 
+            final countryCode = item['Code'];
+            final countryName = item['Country'];
 
-          if (countryCode != null) {
-            final flagUrl = 'https://flagcdn.com/w320/${countryCode.toLowerCase()}.png';
-            final flagResponse = await http.get(Uri.parse(flagUrl));
-
-            if (flagResponse.statusCode == 200) {
-              countryFlags[countryName] = Image.network(flagUrl,height:100,width:150,fit:BoxFit.cover);
+            if (countryCode != null) {
+              final flagUrl = 'https://restcountries.com/v3.1/alpha/${countryCode.toLowerCase()}';
+              final flagResponse = await http.get(Uri.parse(flagUrl));
+              if (flagResponse.statusCode == 200) {
+                
+                final responseData = json.decode(flagResponse.body);
+                final flagImageUrl = responseData[0]['flags']['png'];
+                print("SUCCESS url ${responseData[0]['flags']['png']} \n ${flagResponse.body}");
+                countryFlags[countryName] = Image.network(flagImageUrl, height: 100, width: 150, fit: BoxFit.cover);
+              } else {
+                print("FAIL url $flagUrl \n ${flagResponse.body}");
+                countryFlags[countryName] = Image.network('https://via.placeholder.com/150',height:100,width:150,fit:BoxFit.cover);
+              }
             } else {
               countryFlags[countryName] = Image.network('https://via.placeholder.com/150',height:100,width:150,fit:BoxFit.cover);
             }
-          } else {
-            countryFlags[countryName] = Image.network('https://via.placeholder.com/150',height:100,width:150,fit:BoxFit.cover);
-          }
+          }());
         }
-
+        await Future.wait(future);
         emit(HomeLoaded(popular: popular, recommended: recommended, images: countryFlags));
       }
 
