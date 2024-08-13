@@ -23,12 +23,17 @@ def login():
 @app.route("/recommend", methods=["GET"])
 def recommend():
     userId = request.args.get("userId")
+    # Read the CSV file containing country codes
+    country_codes_df = pd.read_csv('recommender/world-countries.csv')
     
     if "popular" in request.args:
         hr = PopularityRecommender()
         recommendations =  hr.recommend()
         recommendations = recommendations.sort_values(by='Popularity', ascending=False)
         recommendations = recommendations.head(20)
+         # Merge with country codes
+        recommendations = recommendations.merge(country_codes_df[['Country', 'Country Code']], on='Country', how='left')
+
         return recommendations.to_json(orient='records')
     
     elif userId is None:
@@ -41,6 +46,10 @@ def recommend():
         )
 
         recommendations = hr.recommend()
+
+         # Merge with country codes
+        recommendations = recommendations.merge(country_codes_df[['Country', 'Country Code']], on='Country', how='left')
+        
         return recommendations.to_json(orient='records')
     
 @app.route("/recommend/cities", methods=["GET"])
