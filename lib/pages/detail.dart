@@ -168,6 +168,10 @@ class _DetailState extends State<Detail> {
                                                 // Move the map to the selected city's location
                                               LatLng cityLocation = LatLng(state.cities[index]['lat'], state.cities[index]['long']);
                                               _mapController.move(cityLocation, 10);
+
+                                              context.read<DetailCubit>().updatePlaces(
+                                                state.cities[index]['lat'], state.cities[index]['long']
+                                              );
                                             },
                                             child: Text(state.cities[index]['name']),
                                           );
@@ -196,6 +200,32 @@ class _DetailState extends State<Detail> {
     );
   }
 
+  
+  Widget placesMarkers() {
+    return BlocBuilder<DetailCubit, DetailState>(
+      builder: (context, state) {   
+        if (state is DetailLoaded) {
+          List<Marker> markers = state.places.map((place) {
+            return Marker(
+              rotate: true,
+              height: 80,
+              width: 100,
+              point: place['latlng'],
+              child: Column(
+                children: [
+                  const Icon(Icons.location_on, color: Colors.red,),
+                  Text(place['name'], maxLines: 2,),
+                ],
+              ),
+            );
+          }).toList();
+          return MarkerLayer(markers: markers);
+        }
+        return const MarkerLayer(markers: []);
+      }
+    );
+  }
+
   Widget processMarkers() {
     return BlocBuilder<DetailCubit, DetailState>(
     builder: (context, state) {   
@@ -203,12 +233,12 @@ class _DetailState extends State<Detail> {
         List<Marker> markers = state.cities.map((city) {
           return Marker(
             rotate: true,
-            height: 80,
-            width: 100,
+            height: 150,
+            width: 170,
             point: LatLng(city['lat'], city['long']),
             child: Column(
               children: [
-                const Icon(Icons.location_on, color: Colors.red,),
+                const Icon(Icons.location_on, color: Colors.deepOrange),
                 Text(city['name'], maxLines: 2,),
               ],
             ),
@@ -273,6 +303,8 @@ class _DetailState extends State<Detail> {
         ),
 
         processMarkers(),
+
+        placesMarkers(),
       ],
     );
   }
