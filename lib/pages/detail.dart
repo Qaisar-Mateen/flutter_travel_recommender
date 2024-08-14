@@ -23,6 +23,7 @@ class _DetailState extends State<Detail> {
   int? _disabledButtonIndex;
   late final MapController _mapController;
   bool _markersProcessed = false;
+  bool loadingPlaces = false;
 
   @override
   void initState() {
@@ -161,17 +162,23 @@ class _DetailState extends State<Detail> {
                                       children: List.generate(
                                         state.cities.length, (index) {
                                           return ElevatedButton(
-                                            onPressed: _disabledButtonIndex == index? null: () {
+                                            onPressed: _disabledButtonIndex == index? null: () async {
                                               setState(() {
                                                 _disabledButtonIndex = index;
+                                                loadingPlaces = true;
                                               });
+
                                                 // Move the map to the selected city's location
                                               LatLng cityLocation = LatLng(state.cities[index]['lat'], state.cities[index]['long']);
                                               _mapController.move(cityLocation, 10);
 
-                                              context.read<DetailCubit>().updatePlaces(
+                                              await context.read<DetailCubit>().updatePlaces(
                                                 state.cities[index]['lat'], state.cities[index]['long']
                                               );
+
+                                              setState(() {
+                                                loadingPlaces = false;
+                                              });
                                             },
                                             child: Text(state.cities[index]['name']),
                                           );
@@ -195,6 +202,26 @@ class _DetailState extends State<Detail> {
               );
             },
           ),
+
+          loadingPlaces? const Align(
+            alignment: Alignment.center,
+            child: Card(
+              elevation: 10,
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                  Text("Fetching Places...", style: TextStyle(fontSize: 16),),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: CircularProgressIndicator(),
+                  )
+                ],),
+              ),
+            ),
+          ) : Container()
         ],
       ),   
     );
