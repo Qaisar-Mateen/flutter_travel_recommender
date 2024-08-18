@@ -42,7 +42,6 @@ dependencies:
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
   flutter_launcher_icons: ^0.13.1
-  animated_splash_screen: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -67,8 +66,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/Splash Screen.gif
+  # assets:
+  #   - assets/Splash Screen.gif
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
