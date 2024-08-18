@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, 
-      title: 'Travel Recommender',
+      title: 'Traveller',
       theme: context.watch<ThemeCubit>().state,
       home: const Login(),
     );
